@@ -403,7 +403,8 @@ int main() {
 			raceHelpHuman <<
 			raceHelpVampire <<
 			raceHelpDruid <<
-			raceHelpTroll; 
+			raceHelpTroll << 
+			raceHelpOrc; 
 			continue; 
 				
 				
