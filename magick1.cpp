@@ -61,11 +61,43 @@ enum classType {
 };
 
 
-enum mageSubClasses { 
-	voidMagic,
-	aetherMagic,
-	arcaneMagic
+enum SubClasses { 
+	//Mage subclasses
+	atherMage,
+	voidMage,
+	arcaneMage,
+	
+	//Shaman subclasses
+	fireShaman,
+	waterShaman,
+	earthShaman,
+	airShaman,
+	
+	//Warlock subclasses
+	demonWarlock, 
+	bloodWarlock, 
+	diseaseWarlock,
+	
+	//Warrior subclasses
+	berserkerWarrior,
+	lightWarrior, 
+	templarWarrior,
+	
+	//Mecha subclasses
+	
+	
+	
+	//Rouge subclasses
+	stealthRouge,
+	lethalRouge, 
+	poisonRouge, 
+	
+	
+	
 };
+
+
+	
 
 
 
@@ -101,7 +133,7 @@ class Creature {
 		
 		
 		//Conditional stats
-		int vampireBB;
+		int vampireBloodLevel;
 		int magic; 
 		int mana; 
 		int stamina;
@@ -261,11 +293,14 @@ int main() {
 	
 		//Shit ton of writing. 
 		
-		std::string raceHelpElf = "Elf - The elves are an ancient race, older than all except the Dwarf. They are found in the Light Forests of Algoria.\n" 
-									"They are built on wisdom, and intelligence.\n"
-									"Many elves live in the wild, hunting their food with a sharp aim and a quick wit.\n"
-									"Elves have mastered the art of the bow, and are stealthier than any race known to Algoria, with the vampire being the only exception\n"
-									"Elves are also jovial, light and happy by nature, throwing grand festivals day and night\n\n";
+		std::string raceHelpElf = "Elf - The elves are an ancient race, older than all except the Dwarf.\n"
+					"They are found in the Light Forests of Algoria.\n" 
+					"They are built on wisdom, and intelligence.\n"
+					"Many elves live in the wild, hunting their food with a sharp aim and a quick wit.\n"
+					"The elves can draw magic from the Aether, the Void, or even the Arcane world.\n"
+					"They call the users of this magick mages.\n"
+					"Elves have mastered the art of the bow, and are stealthier than any race known to Algoria, with the vampire being the only exception\n"
+					"Elves are also jovial, light and happy by nature, throwing grand festivals day and night\n\n";
 								
 		std::string raceHelpHuman = "Human - The humans are the newest race to Algoria, and populate the plains in large cities.\n"
 									"They are known by other races to be greedy and power-hungry.\n"
@@ -290,6 +325,7 @@ int main() {
 		std::string raceHelpDruid = "Druid - The Druid date back to the very beggining of dark magic, and are found in the Dark Forests of Algoria.\n"
 									"Once a most respected and beloved elven tribe, The Druid leaders began tampering with a dark, twisting power.\n"
 									"This power, an ancient black magic, poisoned The Druid, both inside and out.\n"
+									"They called the users of this Magick warlocks.\n"
 									"They became obsessed, infatuated with the power it gave them, there skin grew dark like ash, and their eyes as black as pitch.\n"
 									"Druids possess a strong magic power, and can deal more damage than any other race with their magic.\n"
 									"They have a strong connection with the void, but are also very disconnected from all things of nature, making them insufficent in that regard.\n"
@@ -307,7 +343,10 @@ int main() {
 		
 		
 		std::string raceHelpOrc = "Orc - The orcs are a younger race, found in the tundras and taigas of Algoria.\n"
-								"";
+					"These creatures were once trolls, shamans, who practiced a darker form of the art.\n"
+					"This magic allowed them to be stealthy, to dissapear int othe shadows, and to make even a single strike lethal.\n"
+					"This magic allowed orcs to be the deadliest asssassin, and the practicers of it were called Rouges.\n"
+					;
 	
 	
 	
@@ -410,9 +449,11 @@ int main() {
 			 
 		 }
 		 
+		 //Asks for class
 		 createIcon();
 		 std::cin >> classChoose;
 		 
+		 //Displays full list of classes 
 		if(displayedList == fullList) { 
 			switch(classChoose) { 
 				case 1: 
@@ -443,7 +484,7 @@ int main() {
 					
 			}
 		}
-	
+		//Sets class if the displayedList is the dark class list 
 		else if(displayedList == darkList) {
 		
 			switch(classChoose) {
@@ -540,4 +581,5 @@ int main() {
 	
 	
  
+
 
