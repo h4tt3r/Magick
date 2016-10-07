@@ -106,7 +106,7 @@ enum SubClasses {
 class Spell { 
 	public:
 		int damage;
-		mageSubClasses type;
+		SubClasses type;
 		int manaCost;
 };
 
@@ -454,6 +454,7 @@ int main() {
 		 createIcon();
 		 std::cin >> classChoose;
 		 
+		 
 		 //Displays full list of classes 
 		if(displayedList == fullList) { 
 			switch(classChoose) { 
@@ -482,6 +483,10 @@ int main() {
 				
 				case 7:
 					user.classtype = fullClassHelp;
+					break;
+					
+				default:
+					errorMessage();
 					
 			}
 		}
@@ -511,6 +516,7 @@ int main() {
 				
 				default: 
 					errorMessage();
+					
 			}
 		}
 		
@@ -540,16 +546,50 @@ int main() {
 				default:
 					errorMessage();	
 			}
+		}
 			
 			
+			
+			
+			if (displayedList == fullList) { 
+				
+				if (classChoose <= 4 and classChoose > 0) { 
+					break;
+				}
+				
+				else if (classChoose == 7) { 
+					std::cout << "This is where class help will go";
+				}
+				
+				else {
+					cinClear();
+					continue;
+				}
+			}
 			if (displayedList == lightList) { 
+				
+				if (classChoose >= 1 and classChoose <= 4 and classChoose !=5) { 
+					break;
+				}
+				
+				else if (classChoose == 5) { 
+					std::cout << "This is where class help will go";
+				}
+				
+				else {
+					cinClear();
+					continue;
+				}
+			}
+			
+			if (displayedList == darkList) { 
 				
 				if (classChoose <= 4 and classChoose > 0) { 
 					break;
 				}
 				
 				else if (classChoose == 5) { 
-					std::cout << "This is where race help will go";
+					std::cout << "This is where class help will go";
 				}
 				
 				else {
@@ -558,29 +598,11 @@ int main() {
 				}
 			}
 		}
-	}
-	
-	
-			
-			
-			
+		
+		
+		
 		
 		
 		
 		
 }
-	
-	
-	
-	 
-	
-	
-
-
-				
-	
-	
-	
- 
-
-
