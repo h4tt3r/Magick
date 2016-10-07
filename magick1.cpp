@@ -549,7 +549,12 @@ int main() {
 		}
 			
 			
-			
+		
+		std::string classHelpMage = ""; 
+		
+		std::string classHelpShaman = ""; 
+		
+		std::string classHelpWarlock = "";
 			
 			if (displayedList == fullList) { 
 				
@@ -558,7 +563,7 @@ int main() {
 				}
 				
 				else if (classChoose == 7) { 
-					std::cout << "This is where class help will go";
+					std::cout << ;
 				}
 				
 				else {
