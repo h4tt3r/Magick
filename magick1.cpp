@@ -318,7 +318,7 @@ int main() {
 									"Vampires can infect humans, to transform them into other vampires.\n"
 									"To all other races, vampire venom is a deadly poison with no known cure and a 10% survival rate.\n"
 									"Vampires are nocturnal creatures, as such they have developed to move quietly, and are the stealthiest race.\n"
-									"If they come in contact with the light of the sun, blisters will quickly develop, as wel as nausea and vomiting;\n"
+									"If they come in contact with the light of the sun, blisters will quickly develop, as well as nausea and vomiting;\n"
 									"even after leaving the sun, these effects can last for hours, this is known as 'Sun Sickness'.\n\n";
 									
 									
@@ -344,9 +344,9 @@ int main() {
 		
 		std::string raceHelpOrc = "Orc - The orcs are a younger race, found in the tundras and taigas of Algoria.\n"
 					"These creatures were once trolls, shamans, who practiced a darker form of the art.\n"
-					"This magic allowed them to be stealthy, to dissapear int othe shadows, and to make even a single strike lethal.\n"
+					"This magic allowed them to be stealthy, to dissapear into the shadows, and to make even a single strike lethal.\n"
 					"This magic allowed orcs to be the deadliest asssassin, and the practicers of it were called Rouges.\n"
-					;
+					"";
 	
 	
 	
