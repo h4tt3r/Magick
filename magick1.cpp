@@ -299,27 +299,28 @@ int main() {
 					"Many elves live in the wild, hunting their food with a sharp aim and a quick wit.\n"
 					"The elves can draw magic from the Aether, the Void, or even the Arcane world.\n"
 					"They call the users of this magick mages.\n"
-					"Elves have mastered the art of the bow, and are stealthier than any race known to Algoria, with the vampire being the only exception\n"
-					"Elves are also jovial, light and happy by nature, throwing grand festivals day and night\n\n";
+					"Elves have mastered the art of the bow.\n"
+					"They are stealthier than any race known to Algoria, with the vampire being the only exception.\n"
+					"Elves are also jovial, light and happy by nature, throwing grand festivals day and night.\n\n";
 								
 		std::string raceHelpHuman = "Human - The humans are the newest race to Algoria, and populate the plains in large cities.\n"
 									"They are known by other races to be greedy and power-hungry.\n"
 									"Humans are generally more equipped at fighting disease and poison.\n"
-									"The human race has adequate physical strength, but is nothing compared to say, an orc\n"
-									"Humans have a unique property of being able to hold more stamina and mana than any other race\n\n";
+									"The human race has adequate physical strength, but is nothing compared to say, an orc.\n"
+									"Humans have a unique property of being able to hold more stamina and mana than any other race.\n\n";
 										
 		
 		std::string raceHelpVampire = "Vampire - The vampire's origin is shrouded in secret and mystery. These creatures are found in all areas of Algoria.\n"
 									"They are dark, powerful creatures, that feed on the blood of others to survive.\n"
 									"Vampires resemble humans in many ways but they have a few distinct features:\n"
 									"1 - Crimson Eyes.\n"
-									"2 - Snow white skin\n"
-									"3 - Two sharp incisors in the top row of teeth\n"
+									"2 - Snow white skin.\n"
+									"3 - Two sharp incisors in the top row of teeth.\n"
 									"Vampires can infect humans, to transform them into other vampires.\n"
 									"To all other races, vampire venom is a deadly poison with no known cure and a 10% survival rate.\n"
 									"Vampires are nocturnal creatures, as such they have developed to move quietly, and are the stealthiest race.\n"
-									"If they come in contact with the light of the sun, blisters will quickly develop, as well as nausea and vomiting;\n"
-									"even after leaving the sun, these effects can last for hours, this is known as 'Sun Sickness'.\n\n";
+									"If they come in contact with the light of the sun, blisters will quickly develop, as well as nausea and vomiting.\n"
+									"Even after leaving the sun, these effects can last for hours, this is known as 'Sun Sickness'.\n\n";
 									
 									
 		std::string raceHelpDruid = "Druid - The Druid date back to the very beggining of dark magic, and are found in the Dark Forests of Algoria.\n"
@@ -329,7 +330,7 @@ int main() {
 									"They became obsessed, infatuated with the power it gave them, there skin grew dark like ash, and their eyes as black as pitch.\n"
 									"Druids possess a strong magic power, and can deal more damage than any other race with their magic.\n"
 									"They have a strong connection with the void, but are also very disconnected from all things of nature, making them insufficent in that regard.\n"
-									"Druids worship the void, and the demons that lie within it, this type of worship leads to a weaker will and mental strength\n\n";
+									"Druids worship the void, and the demons that lie within it, this type of worship leads to a weaker will and mental strength.\n\n";
 										
 										
 									
@@ -346,9 +347,15 @@ int main() {
 					"These creatures were once trolls, shamans, who practiced a darker form of the art.\n"
 					"This magic allowed them to be stealthy, to dissapear into the shadows, and to make even a single strike lethal.\n"
 					"This magic allowed orcs to be the deadliest asssassin, and the practicers of it were called Rouges.\n"
-					"";
+					"Orcs are strong, but brutal in their ways. Punishment for breaking laws in their societies are harsh, and often times fatal.\n\n";
 	
 	
+	
+		std::string raceHelpDwarf = "Dwarf - The dwarves are the oldest race in all of Algoria. This race is found in the icy plains of Desren.\n"
+								"Dwarves do not live in castles, nor tents, but under the earth, in tunnels and colonies, dug by their very own hands.\n"
+								"The Dwarves use a form of magic of their own, calling the users of it the Mecha.\n"
+								"Dwarf magic is used to shape metal, bend it to their will, to build elaborate machines out of raw stone and steel.\n"
+								"The Dwarves tend to be prejudice against other races, humans and elves in particular. They are set on handling affairs strictly internally.\n\n"; 
 	
 		switch(raceChoose) {
 		
@@ -404,7 +411,8 @@ int main() {
 			raceHelpVampire <<
 			raceHelpDruid <<
 			raceHelpTroll << 
-			raceHelpOrc; 
+			raceHelpOrc <<
+			raceHelpDwarf; 
 			continue; 
 				
 				
@@ -421,7 +429,7 @@ int main() {
 	//This code is for choosing a class
 	while(true) {
 		
-		//The following code will determine which class lis was displayed, as to make switch/case statements easier.
+		//The following code will determine which class list was displayed, as to make switch/case statements easier.
 		//It will set up an enum value as darkList, lightList, or fullList, then use those to determine which list was displayed.
 		enum classLists  { 
 			darkList,
@@ -520,6 +528,7 @@ int main() {
 			}
 		}
 		
+		//Sets class if the light class list was displayed
 		else if(displayedList == lightList) { 
 			
 			switch(classChoose)  {
@@ -555,7 +564,14 @@ int main() {
 		std::string classHelpShaman = ""; 
 		
 		std::string classHelpWarlock = "";
+		
+		std::string classHelpMecha = "";
+		
+		std::string classHelpRouge = ""; 
+		
+		std::string classHelpWarrior = "";
 			
+			//Decides whether to break or continue loop based on input for players using the full list
 			if (displayedList == fullList) { 
 				
 				if (classChoose <= 4 and classChoose > 0) { 
@@ -563,7 +579,7 @@ int main() {
 				}
 				
 				else if (classChoose == 7) { 
-					std::cout << ;
+					std::cout << "This is where class help will go" ;
 				}
 				
 				else {
@@ -571,6 +587,8 @@ int main() {
 					continue;
 				}
 			}
+			
+			//Decides whether to break or continue loop based on input for players using the light list  
 			if (displayedList == lightList) { 
 				
 				if (classChoose >= 1 and classChoose <= 4 and classChoose !=5) { 
@@ -587,6 +605,7 @@ int main() {
 				}
 			}
 			
+			//Decides whether to break or continue loop based on input for players using the dark list 
 			if (displayedList == darkList) { 
 				
 				if (classChoose <= 4 and classChoose > 0) { 
