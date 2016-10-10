@@ -559,17 +559,25 @@ int main() {
 			
 			
 		
-		std::string classHelpMage = ""; 
+		std::string classHelpMage = "Mage - Mages draw their magic from one of the three celestial worlds; these worlds include:\n"
+									"The Aether - Very little is known about this realm, it is the place where light mages draw their energy.\n"
+									"The Void - This place contains the demons of Algoria, and can be reached in dreams. This is the world in which dark mages draw their energy.\n"
+									"The Arcane World - Called 'The Invisible World' by many. Exists as a realm that lives under the surface of ours, filled with its own beings and powers. This is where arcane mages draw their power.\n"
+									"Mages use raw energy from these worlds, and use discipline and intelligence to master their art.\n\n"; 
 		
-		std::string classHelpShaman = ""; 
+		std::string classHelpShaman = "Shaman - Shaman draw their magic from the elements of Algoria.\n"
+										"The elements used by Shaman are Earth, Water, Fire, and Air.\n"
+										"Shaman respect nature, and believe it should be protected at all costs.\n"
+										"Shamans magic can be beautiful, but if placed in the wrong hands, can easily spread out of control, and become dangerous.\n"; 
 		
-		std::string classHelpWarlock = "";
+		std::string classHelpWarlock = "Warlock - Warlock magic is the darkest form of arts, drawing their magic from the beings of the void, demons.\n"
+										"";
 		
-		std::string classHelpMecha = "";
+		std::string classHelpMecha = "Mecha -";
 		
-		std::string classHelpRouge = ""; 
+		std::string classHelpRouge = "Rouge -"; 
 		
-		std::string classHelpWarrior = "";
+		std::string classHelpWarrior = "Warrior -";
 			
 			//Decides whether to break or continue loop based on input for players using the full list
 			if (displayedList == fullList) { 
@@ -622,6 +630,7 @@ int main() {
 				}
 			}
 		}
+		
 		
 		
 		
