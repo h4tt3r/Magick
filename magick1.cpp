@@ -128,13 +128,15 @@ class Creature {
 		int speed;
 		int health;
 		int baseDamage;
+		
+		
 		//Attack related
 		std::vector<Spell> spells;
 		
 		
 		//Conditional stats
 		int vampireBloodLevel;
-		int magic; 
+		int magick; 
 		int mana; 
 		int stamina;
 		int manaRegRate;
@@ -297,10 +299,9 @@ int main() {
 					"They are found in the Light Forests of Algoria.\n" 
 					"They are built on wisdom, and intelligence.\n"
 					"Many elves live in the wild, hunting their food with a sharp aim and a quick wit.\n"
-					"The elves can draw magic from the Aether, the Void, or even the Arcane world.\n"
+					"The elves discovered a magick allowing them to draw energy from the Aether, the Void, or even the Arcane world.\n"
 					"They call the users of this magick mages.\n"
 					"Elves have mastered the art of the bow.\n"
-					"They are stealthier than any race known to Algoria, with the vampire being the only exception.\n"
 					"Elves are also jovial, light and happy by nature, throwing grand festivals day and night.\n\n";
 								
 		std::string raceHelpHuman = "Human - The humans are the newest race to Algoria, and populate the plains in large cities.\n"
@@ -325,10 +326,10 @@ int main() {
 									
 		std::string raceHelpDruid = "Druid - The Druid date back to the very beggining of dark magic, and are found in the Dark Forests of Algoria.\n"
 									"Once a most respected and beloved elven tribe, The Druid leaders began tampering with a dark, twisting power.\n"
-									"This power, an ancient black magic, poisoned The Druid, both inside and out.\n"
-									"They called the users of this Magick warlocks.\n"
+									"This power, an ancient black magick, poisoned The Druid, both inside and out.\n"
+									"They called the users of this magick warlocks.\n"
 									"They became obsessed, infatuated with the power it gave them, there skin grew dark like ash, and their eyes as black as pitch.\n"
-									"Druids possess a strong magic power, and can deal more damage than any other race with their magic.\n"
+									"Druids possess a strong magick power, and can deal more damage than any other race with their magick.\n"
 									"They have a strong connection with the void, but are also very disconnected from all things of nature, making them insufficent in that regard.\n"
 									"Druids worship the void, and the demons that lie within it, this type of worship leads to a weaker will and mental strength.\n\n";
 										
@@ -336,7 +337,7 @@ int main() {
 									
 		std::string raceHelpTroll = "Troll - The trolls are an olden race, found in the jungles of Algoria.\n"
 									"The trolls live in large tribes, living as hunter gatherers.\n"
-									"Trolls developed a magic centered purely on that of nature, calling the practicers Shaman.\n"
+									"Trolls developed a magick centered purely on that of nature, calling the practicers Shaman.\n"
 									"Trolls are large beings, with skin as green as emerald.\n" 
 									"They are naturally more enduring, being able to take more damage than any race.\n"
 									"Trolls are very strong, and resort to using their hands or large clubs or staves as weapons.\n\n";
@@ -345,15 +346,15 @@ int main() {
 		
 		std::string raceHelpOrc = "Orc - The orcs are a younger race, found in the tundras and taigas of Algoria.\n"
 					"These creatures were once trolls, shamans, who practiced a darker form of the art.\n"
-					"This magic allowed them to be stealthy, to dissapear into the shadows, and to make even a single strike lethal.\n"
-					"This magic allowed orcs to be the deadliest asssassin, and the practicers of it were called Rouges.\n"
+					"This magick allowed them to be stealthy, to dissapear into the shadows, and to make even a single strike lethal.\n"
+					"This magick allowed orcs to be the deadliest asssassin, and the practicers of it were called Rouges.\n"
 					"Orcs are strong, but brutal in their ways. Punishment for breaking laws in their societies are harsh, and often times fatal.\n\n";
 	
 	
 	
 		std::string raceHelpDwarf = "Dwarf - The dwarves are the oldest race in all of Algoria. This race is found in the icy plains of Desren.\n"
 								"Dwarves do not live in castles, nor tents, but under the earth, in tunnels and colonies, dug by their very own hands.\n"
-								"The Dwarves use a form of magic of their own, calling the users of it the Mecha.\n"
+								"The Dwarves use a form of magick of their own, calling the users of it the Mecha.\n"
 								"Dwarf magic is used to shape metal, bend it to their will, to build elaborate machines out of raw stone and steel.\n"
 								"The Dwarves tend to be prejudice against other races, humans and elves in particular. They are set on handling affairs strictly internally.\n\n"; 
 	
@@ -558,20 +559,36 @@ int main() {
 		}
 			
 			
-		
-		std::string classHelpMage = "Mage - Mages draw their magic from one of the three celestial worlds; these worlds include:\n"
+		/* 
+		  
+		 LUKE 
+		 You are in charge of writing the lines below, write the rest of the class lore. 
+		 So long as you say basically what I've already said, you can even rewrite the classes I've already wrote if you so choose
+		 If you want to know what a class is or what it does, ask me, but I need to get started on coding the structure for subclasses
+		 And a ton of other stuff, so I need this done 
+		 
+		 
+		 Stop being lazy, just DO ET. 
+		 
+		 
+		  -Yer M8, Aiden
+		 */
+		std::string classHelpMage = "Mage - Mages draw their magick from one of the three celestial worlds; these worlds include:\n"
 									"The Aether - Very little is known about this realm, it is the place where light mages draw their energy.\n"
 									"The Void - This place contains the demons of Algoria, and can be reached in dreams. This is the world in which dark mages draw their energy.\n"
-									"The Arcane World - Called 'The Invisible World' by many. Exists as a realm that lives under the surface of ours, filled with its own beings and powers. This is where arcane mages draw their power.\n"
+									"The Arcane World - Called 'The Invisible World' by many. Exists as a realm that lives under the surface of ours, filled with its own beings and powers.\n"
+									"\nThis is where arcane mages draw their power.\n"
 									"Mages use raw energy from these worlds, and use discipline and intelligence to master their art.\n\n"; 
 		
-		std::string classHelpShaman = "Shaman - Shaman draw their magic from the elements of Algoria.\n"
+		std::string classHelpShaman = "Shaman - Shaman draw their magick from the elements of Algoria.\n"
 										"The elements used by Shaman are Earth, Water, Fire, and Air.\n"
 										"Shaman respect nature, and believe it should be protected at all costs.\n"
-										"Shamans magic can be beautiful, but if placed in the wrong hands, can easily spread out of control, and become dangerous.\n"; 
+										"Shamans magick can be beautiful, but if placed in the wrong hands, can easily spread out of control, and become dangerous.\n"; 
 		
-		std::string classHelpWarlock = "Warlock - Warlock magic is the darkest form of arts, drawing their magic from the beings of the void, demons.\n"
-										"";
+		std::string classHelpWarlock = "Warlock - Warlock magick is the darkest form of arts, drawing their energy from the beings of the void, demons.\n"
+										"A warlock's magick is used to harm and delude, and there are several specializations of warlock magick. \n"
+										"Warlocks magick cannot be used to heal by normal means, and must use life force from others to heal or help.\n"
+										"To cast spells, warlocks use magick drawn from demons of the void to create energy.\n";
 		
 		std::string classHelpMecha = "Mecha -";
 		
@@ -587,7 +604,12 @@ int main() {
 				}
 				
 				else if (classChoose == 7) { 
-					std::cout << "This is where class help will go" ;
+					std::cout << classHelpMage 
+							<< classHelpShaman
+							<< classHelpWarlock
+							<< classHelpMecha
+							<< classHelpRouge 
+							<< classHelpWarrior;
 				}
 				
 				else {
@@ -604,7 +626,10 @@ int main() {
 				}
 				
 				else if (classChoose == 5) { 
-					std::cout << "This is where class help will go";
+					std::cout << classHelpMage 
+							<< classHelpShaman
+							<< classHelpMecha
+							<< classHelpWarrior;
 				}
 				
 				else {
@@ -621,7 +646,10 @@ int main() {
 				}
 				
 				else if (classChoose == 5) { 
-					std::cout << "This is where class help will go";
+					std::cout << classHelpMage 
+							<< classHelpShaman
+							<< classHelpWarlock
+							<< classHelpRouge;
 				}
 				
 				else {
@@ -630,6 +658,9 @@ int main() {
 				}
 			}
 		}
+		
+		
+		
 		
 		
 		
