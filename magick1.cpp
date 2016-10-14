@@ -662,7 +662,18 @@ int main() {
 		
 		
 		
-		
+		switch(user.classType) { 
+			
+		case mage: 
+			while(true) { 
+				
+			}
+			
+			
+			
+			
+			
+		}
 		
 		
 		
