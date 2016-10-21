@@ -25,7 +25,6 @@ void cinClear(void) {
 }
 
 
-
 enum Gender {
 	male, 
 	female,
@@ -281,7 +280,7 @@ int main() {
 		//Asks players for race. 
 		int raceChoose; 
 		std::cout << "\nPlease choose a race:\n"
-					"1. Elf\n"
+					"1. Elf\ n"
 					"2. Human\n"
 					"3. Vampire\n"
 					"4. Druid\n"
@@ -662,16 +661,46 @@ int main() {
 		
 		
 		
-		switch(user.classType) { 
+		switch(user.classtype) { 
 			
 		case mage: 
 			while(true) { 
 				
 			}
+			break;
 			
+		
+		case shaman: 
+			while(true) { 
 			
+			}
+			break;
 			
+		case warlock: 
+			while(true) { 
 			
+			}
+			break;
+			
+		case mecha: 
+			while(true) {
+			
+			}
+			break;
+		
+		case rouge:
+			while(true) {
+			
+			}
+			break;
+		
+		case warrior: 
+			while(true) { 
+	
+			}
+			break;
+		
+		
 			
 		}
 		
