@@ -564,13 +564,17 @@ int main() {
 		 You are in charge of writing the lines below, write the rest of the class lore. 
 		 So long as you say basically what I've already said, you can even rewrite the classes I've already wrote if you so choose
 		 If you want to know what a class is or what it does, ask me, but I need to get started on coding the structure for subclasses
-		 And a ton of other stuff, so I need this done 
+		 And a ton of other stuff, so I need this done.
 		 
 		 
 		 Stop being lazy, just DO ET. 
 		 
 		 
 		  -Yer M8, Aiden
+		  
+		  AIDEN
+		  I'm too lazy. But I'm doing it. Let the briney pickle juice I just had and my massive eye backs combine to create what is my imagination.
+		  Also, I'm on it. Kekekeke
 		 */
 		std::string classHelpMage = "Mage - Mages draw their magick from one of the three celestial worlds; these worlds include:\n"
 									"The Aether - Very little is known about this realm, it is the place where light mages draw their energy.\n"
@@ -591,8 +595,11 @@ int main() {
 		
 		std::string classHelpMecha = "Mecha -";
 		
-		std::string classHelpRouge = "Rouge -"; 
-		
+		std::string classHelpRouge = "Rouge - Rogues are a kindred group of thieves and assassins, bound by blood to fulfill bounties. They utilize trinkets and gadgets to conceal themselves or their weapon of choice.\n"
+										"Rouges are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n"
+										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n"
+										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n"
+										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; /* AKA, NIPPLE PINCHING
 		std::string classHelpWarrior = "Warrior -";
 			
 			//Decides whether to break or continue loop based on input for players using the full list
