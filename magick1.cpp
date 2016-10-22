@@ -5,6 +5,7 @@
 #include <vector>	
 
 
+
 //Function that creates pointer ">" Icon...Im lazy. 
 void createIcon() { 
 	std::cout << "> ";
@@ -102,12 +103,24 @@ enum SubClasses {
 
 
 
-class Spell { 
+class damageSpell { 
 	public:
 		int damage;
 		SubClasses type;
 		int manaCost;
+		std::string spellDescription; 
 };
+
+
+class healingSpell { 
+	public:
+		int healthAdded; 
+		int manaCost;
+		SubClasses type;
+		std::string spellDescription; 
+};
+
+
 
 
 
@@ -122,15 +135,15 @@ class Creature {
 		
 		//Mandatory Stats
 		int wisdom;
-		int stealth; 
+		bool stealth; 
 		int agility;
 		int speed;
 		int health;
 		int baseDamage;
 		
 		
-		//Attack related
-		std::vector<Spell> spells;
+		//Spell Damage
+		std::vector<damageSpell> spells;
 		
 		
 		//Conditional stats
@@ -142,6 +155,18 @@ class Creature {
 		int stamRegRate;
 		bool isVampire;
 };
+
+//Checks if the healt his above 100, if so, brings health back down to 100
+void checkHealthFull() { 
+		if(user.health > 100) { 
+			int subtractFromHealth = user.health - 100; 
+			user.health = user.health - subtractFromHealth; 
+		}
+}
+
+
+
+
 
 	
 //Class player inherits from creature
@@ -280,7 +305,7 @@ int main() {
 		//Asks players for race. 
 		int raceChoose; 
 		std::cout << "\nPlease choose a race:\n"
-					"1. Elf\ n"
+					"1. Elf\n"
 					"2. Human\n"
 					"3. Vampire\n"
 					"4. Druid\n"
@@ -603,9 +628,9 @@ int main() {
 		
 		std::string classHelpWarrior = "Warrior - Warriors are the stock of any militarized nation within Algoria. Untimid, they stride into battle, brash to bash their foes.\n"
 										"Warriors commonly classify themselves within a certain culture or race, thus determining their balances in warfare.\n"
-										"Berserker - Berserker warriors bear heavy-metal armors, smithed by their homeland smiths. They savor their wounds in glory, but lack actual fighting skills.\n"
-										"Light - Light warriors skirmish behind breserkers, and wield finely tempered blades and stocky maces. They focus in dealing damage, not taking it.\n"
-										"Templar - Templars are zealous scholars, dedicated in the study of warfare. They are tinkerers, architects, and smiths, utilizing constructs to maime and kill.\n";
+										"Berserker - Berserker warriors bear heavy-metal armors, they use large weapons, long swords and the like. They can tap into a fiery rage, allowing them to become deadly killing machines.\n"
+										"Light - Light warriors skirmish behind berserkers, and wield finely tempered blades and small maces. They focus in dealing damage, not taking it.\n"
+										"Templar - Templars are zealous scholars, they use techniques passed down for ages to neutralize and drain magic. After doing this, they can swiftly kill their magic using enemies.\n";
 			
 			//Decides whether to break or continue loop based on input for players using the full list
 			if (displayedList == fullList) { 
