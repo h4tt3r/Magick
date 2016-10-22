@@ -599,7 +599,7 @@ int main() {
 										"Rouges are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n"
 										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n"
 										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n"
-										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; /* AKA, NIPPLE PINCHING
+										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; /* AKA, NIPPLE PINCHING*/
 		std::string classHelpWarrior = "Warrior -";
 			
 			//Decides whether to break or continue loop based on input for players using the full list
