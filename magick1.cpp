@@ -600,7 +600,12 @@ int main() {
 										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n"
 										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n"
 										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; /* AKA, NIPPLE PINCHING*/
-		std::string classHelpWarrior = "Warrior -";
+		
+		std::string classHelpWarrior = "Warrior - Warriors are the stock of any militarized nation within Algoria. Untimid, they stride into battle, brash to bash their foes.\n"
+										"Warriors commonly classify themselves within a certain culture or race, thus determining their balances in warfare.\n"
+										"Berserker - Berserker warriors bear heavy-metal armors, smithed by their homeland smiths. They savor their wounds in glory, but lack actual fighting skills.\n"
+										"Light - Light warriors skirmish behind breserkers, and wield finely tempered blades and stocky maces. They focus in dealing damage, not taking it.\n"
+										"Templar - Templars are zealous scholars, dedicated in the study of warfare. They are tinkerers, architects, and smiths, utilizing constructs to maime and kill.\n";
 			
 			//Decides whether to break or continue loop based on input for players using the full list
 			if (displayedList == fullList) { 
