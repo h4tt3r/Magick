@@ -344,7 +344,7 @@ void playerFightMechanics(Creature creature) {
 				default: 
 					break;
 		}
-	}	
+}	
 		
 				
 		
