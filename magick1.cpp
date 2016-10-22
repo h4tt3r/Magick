@@ -5,19 +5,15 @@
 #include <vector>	
 
 
-
+//MECHANICS FUNCTIONS 
 //Function that creates pointer ">" Icon...Im lazy. 
 void createIcon() { 
 	std::cout << "> ";
 }
-
 void errorMessage() {
 	std::cout << "\nNot a valid number, please try again.\n";
 	
 }
-
-
-
 //Function clears cin
 void cinClear(void) { 
 	using namespace std;
@@ -26,14 +22,17 @@ void cinClear(void) {
 }
 
 
+
+
+
+
+
+//PLAYER RELATED ENUMS
 enum Gender {
 	male, 
 	female,
 	error
 };
-
-
-
 
 enum Race {
 	elf,
@@ -46,8 +45,6 @@ enum Race {
 	raceHelp
 };
 
-
-
 enum classType { 
 	mage,
 	warlock,
@@ -59,7 +56,6 @@ enum classType {
 	darkClassHelp,
 	fullClassHelp
 };
-
 
 enum SubClasses { 
 	//Mage subclasses
@@ -102,7 +98,7 @@ enum SubClasses {
 
 
 
-
+//SPELL CLASSES
 class damageSpell { 
 	public:
 		int damage;
@@ -110,7 +106,6 @@ class damageSpell {
 		int manaCost;
 		std::string spellDescription; 
 };
-
 
 class healingSpell { 
 	public:
@@ -124,6 +119,11 @@ class healingSpell {
 
 
 
+
+
+
+
+//PLAYER/CREATURE RELATED CLASSES
 //Defines player class and attributes
 class Creature {
 	public: 
@@ -132,6 +132,7 @@ class Creature {
 		Gender gender;
 		Race race;
 		classType classtype;
+		SubClasses subclass;
 		
 		//Mandatory Stats
 		int wisdom;
@@ -155,29 +156,24 @@ class Creature {
 		int stamRegRate;
 		bool isVampire;
 };
-
-//Checks if the healt his above 100, if so, brings health back down to 100
-void checkHealthFull() { 
-		if(user.health > 100) { 
-			int subtractFromHealth = user.health - 100; 
-			user.health = user.health - subtractFromHealth; 
-		}
-}
-
-
-
-
-
 	
 //Class player inherits from creature
 class Player : public Creature { 
-	public: 
-		enum class CurrentLocation {};
-		CurrentLocation currentLocation;
+	
 
 };
+Player user;
 
 
+
+
+
+
+
+
+
+
+//PLAYER CLASSES LISTS 
 //This is for the entire class list. Note: Only for Vampires and Humans 
 void fullClassChoose() {
 	
@@ -212,12 +208,56 @@ void lightClassChoose() {
 					"5. Class Info\n";
 }
 
+
+
+
+
+
+
+
+//BATTLE MECHANICS
+//Checks if the health his above 100, if so, brings health back down to 100
+void checkHealthFull() { 
+		if(user.health > 100) { 
+			int subtractFromHealth = user.health - 100; 
+			user.health = user.health - subtractFromHealth; 
+		}
+}
+
+void displayStats(Creature) { 
+		std::cout << "HP: " << user.health << "/100\n";
+		if(user.classtype == mage or user.classtype == shaman or user.classtype == mecha or user.classtype == warlock or user.subclass == templarWarrior) {
+			std::cout << "Mana: " << user.mana << "/100\n";
+		}
+		else { 
+			std::cout << "Agility: " << user.agility << "/100\n";
+		}
+		
+		std::cout << "Choose which spell/attack you wish to use:\n"
+					"1. Damage\n"
+					"2. Healing\n"
+					"3. Effects\n"
+					"4. Items";
+		
+};
+
+
+
+
+
+
+
+
+
+
+//GAME START 
 int main() {
 	
 	
-	Player user;
 	
+
 	
+
 	while (true) { 
 		//Acquires players first name 
 		std::string introOne = "Welcome to The World of Magick\nWhat is your name?\n";
@@ -583,24 +623,7 @@ int main() {
 		}
 			
 			
-		/* 
-		  
-		 LUKE 
-		 You are in charge of writing the lines below, write the rest of the class lore. 
-		 So long as you say basically what I've already said, you can even rewrite the classes I've already wrote if you so choose
-		 If you want to know what a class is or what it does, ask me, but I need to get started on coding the structure for subclasses
-		 And a ton of other stuff, so I need this done.
-		 
-		 
-		 Stop being lazy, just DO ET. 
-		 
-		 
-		  -Yer M8, Aiden
-		  
-		  AIDEN
-		  I'm too lazy. But I'm doing it. Let the briney pickle juice I just had and my massive eye backs combine to create what is my imagination.
-		  Also, I'm on it. Kekekeke
-		 */
+		
 		std::string classHelpMage = "Mage - Mages draw their magick from one of the three celestial worlds; these worlds include:\n"
 									"The Aether - Very little is known about this realm, it is the place where light mages draw their energy.\n"
 									"The Void - This place contains the demons of Algoria, and can be reached in dreams. This is the world in which dark mages draw their energy.\n"
@@ -624,7 +647,7 @@ int main() {
 										"Rouges are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n"
 										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n"
 										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n"
-										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; /* AKA, NIPPLE PINCHING*/
+										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; 
 		
 		std::string classHelpWarrior = "Warrior - Warriors are the stock of any militarized nation within Algoria. Untimid, they stride into battle, brash to bash their foes.\n"
 										"Warriors commonly classify themselves within a certain culture or race, thus determining their balances in warfare.\n"
@@ -747,3 +770,4 @@ int main() {
 		
 		
 }
+*/
