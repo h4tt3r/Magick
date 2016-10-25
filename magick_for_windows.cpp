@@ -3,6 +3,10 @@
 #include <limits>
 #include <fstream> 
 #include <vector>	
+#include <ctime> 
+#include <windows.h>
+#include <cstdlib>
+ 
 
 
 //MECHANICS FUNCTIONS 
@@ -149,6 +153,11 @@ class Creature {
 		int baseDamage;
 		
 		
+		//Non Player Stats
+		int experienceGained;
+		int defaultHealth;
+		
+		
 		//Spell Damage
 		std::vector<damageSpell> damageSpells;
 		
@@ -236,9 +245,12 @@ void checkHealthFull() {
 
 void enemyHealthCheck(Creature creature) { 
 	if(creature.health <= 0) {
-		std::cout << "You have slain " << creature.name << "!";
+		std::cout << "You have slain " << creature.name << "!\n";
+		creature.alive = false;
 	}
 }
+
+
 
 void playerHealthCheck(Creature player) {
 	if(player.health <= 0) { 
@@ -251,81 +263,154 @@ void playerHealthCheck(Creature player) {
 
 //Literally all of the players fight mechanics
 void playerFightMechanics(Creature creature) { 
-		std::cout << "You are fighting " << creature.name << ".";
-		//Displays User Health and Mana 
-		std::cout << "Your HP: " << user.health << "/100\n";
-		if(user.classtype == mage or user.classtype == shaman or user.classtype == mecha or user.classtype == warlock or user.subclass == templarWarrior) {
-			std::cout << "Your Mana: " << user.mana << "/100\n";
-		}
-		else { 
-			std::cout << "Agility: " << user.agility << "/100\n";
-		}
+	std::cout << "You are fighting " << creature.name << ".\n";
+		
+		
+		
+			int firstTurnChecker = 1;
+			bool runAttackMenuAgain = false; 
+			while(true) { 
+				bool playerAlive; 
+				
+				if(creature.health <= 0) { 
+					std::cout << "You have slain " << creature.name << "!\n";
+					std::cout << "XP Awarded: " << creature.experienceGained << "\n";
+					break;
+				}
+				
+				
+				
+			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true) { 
+				int randomNumber;
+				srand( time(0));
+				randomNumber = rand() % 3 + 1;
+				if(randomNumber == 1) { 
+					user.health = user.health - creature.damageSpells.at(0).damage;
+					std::string currentSpell = creature.damageSpells.at(0).spellName;
+					std::cout << creature.name << " uses " << currentSpell << "\n";
+				}
+				else if(randomNumber == 2) { 
+					user.health = user.health - creature.damageSpells.at(1).damage;
+					std::string currentSpell = creature.damageSpells.at(1).spellName;
+					std::cout << creature.name << " uses " << currentSpell << "\n";
+				}
+				else if(randomNumber == 3) { 
+					user.health = user.health - creature.damageSpells.at(2).damage;
+					std::string currentSpell = creature.damageSpells.at(2).spellName;
+					std::cout << creature.name << " uses " << currentSpell << "\n";
+				}
+			}
+			if(user.health < 0) { 
+					Sleep(2);
+					std::cout << "\n\nYou Have Died.\n\n";
+					Sleep(2);
+					std::cout << "Restarting Battle...\n\n\n";
+					Sleep(2);
+					user.health = 100;
+					user.mana = 100;
+					creature.health = creature.defaultHealth;
+					playerAlive = false; 
+					continue;
+				}
+			firstTurnChecker++; 
+			playerAlive = true;
+			//Displays User Health and Mana 
+			std::cout << "Your HP: " << user.health << "/100\n";
+			if(user.classtype == mage or user.classtype == shaman or user.classtype == mecha or user.classtype == warlock or user.subclass == templarWarrior) {
+				std::cout << "Your Mana: " << user.mana << "/100\n";
+			}
+			else { 
+				std::cout << "Agility: " << user.agility << "/100\n";
+			}
 		
 		
 			//Lets the choose which type of attack/healing thing they want
-			std::cout << "Choose which spell/attack you wish to use:\n"
-						"1. Damage\n"
-						"2. Healing\n"
-						"3. Effects\n"
-						"4. Items\n";
-			int chooseAttackType; 
-			createIcon();
-			std::cin >> chooseAttackType; 
-		
-			//Activates spell chooser based on previous answer
-			switch(chooseAttackType) { 
-				//CHOOSEATTACKTYPE CASE 1 BEGIN
-				case 1: 
-					//DSP is Damage Spell Something
-					std::cout << "1. " << user.damageSpells.at(0).spellName;
-					std::cout << "\n";
-					std::cout << "2. "  << user.damageSpells.at(1).spellName;
-					std::cout << "\n";
-					std::cout << "3. " << user.damageSpells.at(2).spellName;
-					std::cout << "\n";
-					std::cout << "4. " << user.damageSpells.at(3).spellName;
-					std::cout << "\n";
-					std::cout << "5. " << user.damageSpells.at(4).spellName;
-					std::cout << "\n";
-					createIcon();
-					int damageSpellChooser; 
-					std::cin >> damageSpellChooser; 
+			
+			
+				std::cout << "Choose which spell/attack you wish to use:\n"
+							"1. Damage\n"
+							"2. Healing\n"
+							"3. Effects\n"
+							"4. Items\n";
+				
+				int chooseAttackType; 
+				createIcon();
+				std::cin >> chooseAttackType; 
+				
+				//Activates spell chooser based on previous answer
+				switch(chooseAttackType) { 
+					//CHOOSEATTACKTYPE CASE 1 BEGIN
+					case 1: 
+						//DSP is Damage Spell Something
+						std::cout << "Choose a damage spell:\n";
+						std::cout << "1. " << user.damageSpells.at(0).spellName;
+						std::cout << "\n";
+						std::cout << "2. "  << user.damageSpells.at(1).spellName;
+						std::cout << "\n";
+						std::cout << "3. " << user.damageSpells.at(2).spellName;
+						std::cout << "\n";
+						std::cout << "4. " << user.damageSpells.at(3).spellName;
+						std::cout << "\n";
+						std::cout << "5. " << user.damageSpells.at(4).spellName;
+						std::cout << "\n";
+						std::cout << "6. Pass";
+						std::cout << "\n";
+						std::cout << "7. Go Back To Main Combat Menu\n";
+						createIcon();
+						int damageSpellChooser; 
+						std::cin >> damageSpellChooser; 
 					
-					switch(damageSpellChooser) { 
-						case 1: 
-							creature.health =  creature.health - user.damageSpells.at(0).damage;
-							std::cout << "Your attack does " << user.damageSpells.at(0).damage << " points of damage\n";
-							std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
-							user.mana = user.mana - user.damageSpells.at(0).manaCost; 
-							break;
-						case 2: 
-							creature.health =  creature.health - user.damageSpells.at(1).damage;
-							std::cout << "Your attack does " << user.damageSpells.at(1).damage << " points of damage\n";
-							std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
-							user.mana = user.mana - user.damageSpells.at(1).manaCost; 
-							break;
-						case 3:
-							creature.health =  creature.health - user.damageSpells.at(2).damage;
-							std::cout << "Your attack does " << user.damageSpells.at(2).damage << " points of damage\n";
-							std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
-							user.mana = user.mana - user.damageSpells.at(2).manaCost; 
-							break;
-						case 4: 
-							creature.health =  creature.health - user.damageSpells.at(3).damage;
-							std::cout << "Your attack does " << user.damageSpells.at(3).damage << " points of damage\n";
-							std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
-							user.mana = user.mana - user.damageSpells.at(3).manaCost; 
-							break;
-						case 5: 
-							creature.health =  creature.health - user.damageSpells.at(4).damage;
-							std::cout << "Your attack does " << user.damageSpells.at(4).damage << " points of damage\n";
-							std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
-							user.mana = user.mana - user.damageSpells.at(4).manaCost; 
-							break;
-						default: 
-							errorMessage();
+						switch(damageSpellChooser) { 
+							case 1: 
+								creature.health =  creature.health - user.damageSpells.at(0).damage;
+								std::cout << "Your attack does " << user.damageSpells.at(0).damage << " points of damage\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								user.mana = user.mana - user.damageSpells.at(0).manaCost; 
+								break;
+							case 2: 
+								creature.health =  creature.health - user.damageSpells.at(1).damage;
+								std::cout << "Your attack does " << user.damageSpells.at(1).damage << " points of damage\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								user.mana = user.mana - user.damageSpells.at(1).manaCost; 
+								break;
+							case 3:
+								creature.health =  creature.health - user.damageSpells.at(2).damage;
+								std::cout << "Your attack does " << user.damageSpells.at(2).damage << " points of damage\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								user.mana = user.mana - user.damageSpells.at(2).manaCost; 
+								break;
+							case 4: 
+								creature.health =  creature.health - user.damageSpells.at(3).damage;
+								std::cout << "Your attack does " << user.damageSpells.at(3).damage << " points of damage\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								user.mana = user.mana - user.damageSpells.at(3).manaCost; 
+								break;
+							case 5: 
+								creature.health =  creature.health - user.damageSpells.at(4).damage;
+								std::cout << "Your attack does " << user.damageSpells.at(4).damage << " points of damage\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								user.mana = user.mana - user.damageSpells.at(4).manaCost; 
+								break;
+							case 6:
+								continue;
+							case 7:
+								runAttackMenuAgain = true;
+								continue;
+							default: 
+								errorMessage();
+								runAttackMenuAgain = true;
+								
 					}
-					break;
+					
+					if(runAttackMenuAgain == false) { 
+						
+						break;
+					}
+					else if(runAttackMenuAgain == true) {
+						cinClear();
+						continue;
+					}
+					
 					//CASE 1 END
 				
 				
@@ -342,28 +427,20 @@ void playerFightMechanics(Creature creature) {
 					break;
 				
 				default: 
-					break;
-		}
-}	
-		
+					errorMessage();
+					cinClear();
+					continue;
 				
-		
-		
-
-
-
-
-
-
-
-
-
-
+				}
+				continue;
+				
+				
+				
+			}
+}		
 
 //GAME START 
 int main() {
-	
-	
 
 	
 	
@@ -881,4 +958,5 @@ int main() {
 		
 		
 }
+
 
