@@ -67,34 +67,39 @@ enum classType {
 
 enum SubClasses { 
 	//Mage subclasses
-	atherMage,
+	aetherMage,
 	voidMage,
 	arcaneMage,
+	mageHelp,
 	
 	//Shaman subclasses
 	fireShaman,
 	waterShaman,
 	earthShaman,
 	airShaman,
+	shamanHelp,
 	
 	//Warlock subclasses
 	demonWarlock, 
 	bloodWarlock, 
 	diseaseWarlock,
+	warlockHelp,
 	
 	//Warrior subclasses
 	berserkerWarrior,
 	lightWarrior, 
 	templarWarrior,
+	warriorHelp,
 	
 	//Mecha subclasses
 	
 	
 	
 	//Rouge subclasses
-	stealthRouge,
-	lethalRouge, 
-	poisonRouge, 
+	stealthRogue,
+	lethalRogue, 
+	poisonRogue, 
+	rogueHelp
 	
 	
 	
@@ -156,10 +161,12 @@ class Creature {
 		//Non Player Stats
 		int experienceGained;
 		int defaultHealth;
+		int rallGained;
 		
 		
 		//Spell Damage
 		std::vector<damageSpell> damageSpells;
+		std::vector<healingSpell> healingSpells; 
 		
 		
 		//Conditional stats
@@ -171,7 +178,6 @@ class Creature {
 		int stamRegRate;
 		bool isVampire;
 };
-	
 
 Creature user;
 
@@ -194,7 +200,7 @@ void fullClassChoose() {
 					"3. Shaman\n"
 					"4. Mecha\n"
 					"5. Warrior\n"
-					"6. Rouge\n"
+					"6. Rogue\n"
 					"7. Class Info\n";
 };
 
@@ -205,7 +211,7 @@ void darkClassChoose() {
 					"1. Mage\n"
 					"2. Warlock\n"
 					"3. Shaman\n"
-					"4. Rouge\n"
+					"4. Rogue\n"
 					"5. Class Info\n";
 }
 
@@ -243,22 +249,7 @@ void checkHealthFull() {
 }
 
 
-void enemyHealthCheck(Creature creature) { 
-	if(creature.health <= 0) {
-		std::cout << "You have slain " << creature.name << "!\n";
-		creature.alive = false;
-	}
-}
 
-
-
-void playerHealthCheck(Creature player) {
-	if(player.health <= 0) { 
-		std::cout << "You Are Dead.";
-		player.alive = false;
-		
-	}
-}
 
 
 //Literally all of the players fight mechanics
@@ -275,6 +266,7 @@ void playerFightMechanics(Creature creature) {
 				if(creature.health <= 0) { 
 					std::cout << "You have slain " << creature.name << "!\n";
 					std::cout << "XP Awarded: " << creature.experienceGained << "\n";
+					std::cout << "Rall Awarded: " << creature.rallGained << "\n";
 					break;
 				}
 				
@@ -327,11 +319,11 @@ void playerFightMechanics(Creature creature) {
 			//Lets the choose which type of attack/healing thing they want
 			
 			
-				std::cout << "Choose which spell/attack you wish to use:\n"
+				std::cout << "Choose which  type of spell/attack you wish to use:\n"
 							"1. Damage\n"
 							"2. Healing\n"
-							"3. Effects\n"
-							"4. Items\n";
+							"3. Items\n"
+							"4. Flee\n";
 				
 				int chooseAttackType; 
 				createIcon();
@@ -599,7 +591,7 @@ int main() {
 		std::string raceHelpOrc = "Orc - The orcs are a younger race, found in the tundras and taigas of Algoria.\n"
 					"These creatures were once trolls, shamans, who practiced a darker form of the art.\n"
 					"This magick allowed them to be stealthy, to dissapear into the shadows, and to make even a single strike lethal.\n"
-					"This magick allowed orcs to be the deadliest asssassin, and the practicers of it were called Rouges.\n"
+					"This magick allowed orcs to be the deadliest asssassin, and the practicers of it were called Rogues.\n"
 					"Orcs are strong, but brutal in their ways. Punishment for breaking laws in their societies are harsh, and often times fatal.\n\n";
 	
 	
@@ -739,7 +731,7 @@ int main() {
 					break;
 					
 				case 6: 
-					user.classtype = rouge;
+					user.classtype = rogue;
 					break;
 				
 				case 7:
@@ -831,8 +823,8 @@ int main() {
 		
 		std::string classHelpMecha = "Mecha -";
 		
-		std::string classHelpRouge = "Rouge - Rogues are a kindred group of thieves and assassins, bound by blood to fulfill bounties. They utilize trinkets and gadgets to conceal themselves or their weapon of choice.\n"
-										"Rouges are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n"
+		std::string classHelpRogue = "Rogue - Rogues are a kindred group of thieves and assassins, bound by blood to fulfill bounties. They utilize trinkets and gadgets to conceal themselves or their weapon of choice.\n"
+										"Rogues are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n"
 										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n"
 										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n"
 										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; 
@@ -855,7 +847,7 @@ int main() {
 							<< classHelpShaman
 							<< classHelpWarlock
 							<< classHelpMecha
-							<< classHelpRouge 
+							<< classHelpRogue 
 							<< classHelpWarrior;
 				}
 				
@@ -876,7 +868,8 @@ int main() {
 					std::cout << classHelpMage 
 							<< classHelpShaman
 							<< classHelpMecha
-							<< classHelpWarrior;
+							<< classHelpWarrior
+							<< classHelpRogue;
 				}
 				
 				else {
@@ -896,7 +889,7 @@ int main() {
 					std::cout << classHelpMage 
 							<< classHelpShaman
 							<< classHelpWarlock
-							<< classHelpRouge;
+							<< classHelpRogue;
 				}
 				
 				else {
@@ -913,7 +906,36 @@ int main() {
 			
 		case mage: 
 			while(true) { 
-				
+				std::cout << "Please choose a subclass for the class " << user.classtype << ":";
+				std::cout <<  "1. Light Mage\n" << 
+							"2. Dark Mage\n" << 
+							"3. Arcane Mage\n" << 
+							"4. Subclass Info\n"; 
+							std::string chooseSubClassMage;
+							createIcon();
+							std::cin >> chooseSubClassMage;
+							switch(chooseSubClassMage) { 
+								case 1: 
+									user.subclass = aetherMage;
+									break;
+								case 2: 
+									user.subclass = voidMage;
+									break;
+								case 3: 
+									user.subclass = arcaneMage;
+									break;
+								case 4:
+									std::cout << ""
+								default: 
+									user.subclass = mageHelp;
+									errorMessage();
+									cinClear();
+									break;
+							if(user.subclass == mageHelp) {
+								continue;
+							}
+							break;
+							
 			}
 			break;
 			
@@ -936,7 +958,7 @@ int main() {
 			}
 			break;
 		
-		case rouge:
+		case rogue:
 			while(true) {
 			
 			}
