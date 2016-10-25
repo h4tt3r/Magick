@@ -4,7 +4,7 @@
 #include <fstream> 
 #include <vector>	
 #include <ctime> 
-#include <windows.h>
+#include <unistd.h>
 #include <cstdlib>
  
 
@@ -59,7 +59,7 @@ enum classType {
 	shaman, 
 	mecha,
 	warrior,
-	rouge,
+	rogue,
 	lightClassHelp,
 	darkClassHelp,
 	fullClassHelp
@@ -293,11 +293,11 @@ void playerFightMechanics(Creature creature) {
 				}
 			}
 			if(user.health < 0) { 
-					Sleep(2);
+					sleep(2);
 					std::cout << "\n\nYou Have Died.\n\n";
-					Sleep(2);
+					sleep(2);
 					std::cout << "Restarting Battle...\n\n\n";
-					Sleep(2);
+					sleep(2);
 					user.health = 100;
 					user.mana = 100;
 					creature.health = creature.defaultHealth;
@@ -760,7 +760,7 @@ int main() {
 					break;
 			
 				case 4: 
-					user.classtype = rouge;
+					user.classtype = rogue;
 					break; 
 				
 				case 5:
@@ -771,6 +771,7 @@ int main() {
 					errorMessage();
 					
 			}
+			break;
 		}
 		
 		//Sets class if the light class list was displayed
@@ -800,6 +801,8 @@ int main() {
 				default:
 					errorMessage();	
 			}
+			break;
+			
 		}
 			
 			
@@ -903,82 +906,87 @@ int main() {
 		
 		
 		switch(user.classtype) { 
-			
-		case mage: 
-			while(true) { 
-				std::cout << "Please choose a subclass for the class " << user.classtype << ":";
-				std::cout <<  "1. Light Mage\n" << 
-							"2. Dark Mage\n" << 
-							"3. Arcane Mage\n" << 
-							"4. Subclass Info\n"; 
-							std::string chooseSubClassMage;
-							createIcon();
-							std::cin >> chooseSubClassMage;
-							switch(chooseSubClassMage) { 
-								case 1: 
-									user.subclass = aetherMage;
-									break;
-								case 2: 
-									user.subclass = voidMage;
-									break;
-								case 3: 
-									user.subclass = arcaneMage;
-									break;
-								case 4:
-									std::cout << ""
-								default: 
-									user.subclass = mageHelp;
-									errorMessage();
-									cinClear();
-									break;
-							if(user.subclass == mageHelp) {
-								continue;
-							}
-							break;
+		while(true) { 
+			case mage: 
+				while(true) { 
+					std::cout << "Please choose a subclass for the class " << user.classtype << ":";
+					std::cout <<  "1. Light Mage\n" << 
+								"2. Dark Mage\n" << 
+								"3. Arcane Mage\n" << 
+								"4. Subclass Info\n"; 
+								int chooseSubClassMage;
+								createIcon();
+								std::cin >> chooseSubClassMage;
+								switch(chooseSubClassMage) { 
+									case 1: 
+										user.subclass = aetherMage;
+										break;
+									case 2: 
+										user.subclass = voidMage;
+										break;
+									case 3: 
+										user.subclass = arcaneMage;
+										break;
+									case 4:
+										std::cout << "";
+										
+								
+									default: 
+										user.subclass = mageHelp;
+										errorMessage();
+										cinClear();
+										break;
+								if(user.subclass == mageHelp) {
+									continue;
+								}
+								break;
 							
-			}
-			break;
+							
+								}
+					}	
+				break;
 			
 		
-		case shaman: 
-			while(true) { 
+			case shaman: 
+				while(true) { 
 			
-			}
-			break;
+				}
+				break;
 			
-		case warlock: 
-			while(true) { 
+			case warlock: 
+				while(true) { 
 			
-			}
-			break;
+				}
+				break;
 			
-		case mecha: 
-			while(true) {
+			case mecha: 
+				while(true) {
 			
-			}
-			break;
+				}
+				break;
 		
-		case rogue:
-			while(true) {
+			case rogue:
+				while(true) {
 			
-			}
-			break;
+				}
+				break;
 		
-		case warrior: 
-			while(true) { 
-	
-			}
-			break;
+			case warrior: 
+				while(true) { 
 		
-		
-			
+				}
+			case lightClassHelp:
+				break;
+				
 		}
+		break;
 		
 		
 		
 		
 		
-		
+		}
 }
+
 
 
