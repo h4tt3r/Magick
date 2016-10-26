@@ -4,7 +4,7 @@
 #include <fstream> 
 #include <vector>	
 #include <ctime> 
-#include <windows.h>
+#include <unistd.h>
 #include <cstdlib>
  
 
@@ -59,7 +59,7 @@ enum classType {
 	shaman, 
 	mecha,
 	warrior,
-	rogue,
+	rouge,
 	lightClassHelp,
 	darkClassHelp,
 	fullClassHelp
@@ -67,39 +67,34 @@ enum classType {
 
 enum SubClasses { 
 	//Mage subclasses
-	aetherMage,
+	atherMage,
 	voidMage,
 	arcaneMage,
-	mageHelp,
 	
 	//Shaman subclasses
 	fireShaman,
 	waterShaman,
 	earthShaman,
 	airShaman,
-	shamanHelp,
 	
 	//Warlock subclasses
 	demonWarlock, 
 	bloodWarlock, 
 	diseaseWarlock,
-	warlockHelp,
 	
 	//Warrior subclasses
 	berserkerWarrior,
 	lightWarrior, 
 	templarWarrior,
-	warriorHelp,
 	
 	//Mecha subclasses
 	
 	
 	
 	//Rouge subclasses
-	stealthRogue,
-	lethalRogue, 
-	poisonRogue, 
-	rogueHelp
+	stealthRouge,
+	lethalRouge, 
+	poisonRouge, 
 	
 	
 	
@@ -161,12 +156,10 @@ class Creature {
 		//Non Player Stats
 		int experienceGained;
 		int defaultHealth;
-		int rallGained;
 		
 		
 		//Spell Damage
 		std::vector<damageSpell> damageSpells;
-		std::vector<healingSpell> healingSpells; 
 		
 		
 		//Conditional stats
@@ -178,6 +171,7 @@ class Creature {
 		int stamRegRate;
 		bool isVampire;
 };
+	
 
 Creature user;
 
@@ -200,7 +194,7 @@ void fullClassChoose() {
 					"3. Shaman\n"
 					"4. Mecha\n"
 					"5. Warrior\n"
-					"6. Rogue\n"
+					"6. Rouge\n"
 					"7. Class Info\n";
 };
 
@@ -211,7 +205,7 @@ void darkClassChoose() {
 					"1. Mage\n"
 					"2. Warlock\n"
 					"3. Shaman\n"
-					"4. Rogue\n"
+					"4. Rouge\n"
 					"5. Class Info\n";
 }
 
@@ -240,15 +234,6 @@ std::ostream &operator<<(std::ostream& stream, const damageSpell& damageSpellToP
 
 
 
-//Checks if the health his above 100, if so, brings health back down to 100
-void checkHealthFull() { 
-		if(user.health > 100) { 
-			int subtractFromHealth = user.health - 100; 
-			user.health = user.health - subtractFromHealth; 
-		}
-}
-
-
 
 
 
@@ -261,42 +246,41 @@ void playerFightMechanics(Creature creature) {
 			int firstTurnChecker = 1;
 			bool runAttackMenuAgain = false; 
 			while(true) { 
+				bool fightErrorMessage;
 				bool playerAlive; 
 				
 				if(creature.health <= 0) { 
 					std::cout << "You have slain " << creature.name << "!\n";
-					sleep(2);
 					std::cout << "XP Awarded: " << creature.experienceGained << "\n";
-					sleep(2);
-					std::cout << "Rall Awarded: " << creature.rallGained << "\n";
-					std::string endFight;
-					std::cout << "Press Enter To Continue\n";
-					std::cin >> endFight;
-					createIcon();
-					
 					break;
 				}
 				
 				
 				
-			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true) { 
+			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true and fightErrorMessage == false) { 
 				int randomNumber;
 				srand( time(0));
 				randomNumber = rand() % 3 + 1;
 				if(randomNumber == 1) { 
 					user.health = user.health - creature.damageSpells.at(0).damage;
 					std::string currentSpell = creature.damageSpells.at(0).spellName;
+		
 					std::cout << creature.name << " uses " << currentSpell << "\n";
+					sleep(2);
 				}
 				else if(randomNumber == 2) { 
 					user.health = user.health - creature.damageSpells.at(1).damage;
 					std::string currentSpell = creature.damageSpells.at(1).spellName;
+					
 					std::cout << creature.name << " uses " << currentSpell << "\n";
+					sleep(2);
 				}
 				else if(randomNumber == 3) { 
 					user.health = user.health - creature.damageSpells.at(2).damage;
 					std::string currentSpell = creature.damageSpells.at(2).spellName;
+					
 					std::cout << creature.name << " uses " << currentSpell << "\n";
+					sleep(2);
 				}
 			}
 			if(user.health < 0) { 
@@ -312,6 +296,7 @@ void playerFightMechanics(Creature creature) {
 					continue;
 				}
 			firstTurnChecker++; 
+			fightErrorMessage = false;
 			playerAlive = true;
 			//Displays User Health and Mana 
 			std::cout << "Your HP: " << user.health << "/100\n";
@@ -326,11 +311,11 @@ void playerFightMechanics(Creature creature) {
 			//Lets the choose which type of attack/healing thing they want
 			
 			
-				std::cout << "Choose which  type of spell/attack you wish to use:\n"
+				std::cout << "Choose which spell/attack you wish to use:\n"
 							"1. Damage\n"
 							"2. Healing\n"
-							"3. Items\n"
-							"4. Flee\n";
+							"3. Effects\n"
+							"4. Items\n";
 				
 				int chooseAttackType; 
 				createIcon();
@@ -428,6 +413,8 @@ void playerFightMechanics(Creature creature) {
 				default: 
 					errorMessage();
 					cinClear();
+					fightErrorMessage = true;
+					
 					continue;
 				
 				}
@@ -436,8 +423,8 @@ void playerFightMechanics(Creature creature) {
 				
 				
 			}
-}		
-
+}	
+	
 //GAME START 
 int main() {
 
