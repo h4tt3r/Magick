@@ -265,8 +265,13 @@ void playerFightMechanics(Creature creature) {
 				
 				if(creature.health <= 0) { 
 					std::cout << "You have slain " << creature.name << "!\n";
+					Sleep(2);
 					std::cout << "XP Awarded: " << creature.experienceGained << "\n";
+					Sleep(2);
 					std::cout << "Rall Awarded: " << creature.rallGained << "\n";
+					std::string endFight;
+					std::cout << "Press Enter To Continue\n";
+					std:: cin >> endFight;
 					break;
 				}
 				
