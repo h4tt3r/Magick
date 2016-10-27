@@ -27,7 +27,7 @@ void cinClear(void) {
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-//YOU ARE NOT EXPECTED TO UNDERSTAND THIS 
+
 
 
 
@@ -59,7 +59,7 @@ enum classType {
 	shaman, 
 	mecha,
 	warrior,
-	rouge,
+	rogue,
 	lightClassHelp,
 	darkClassHelp,
 	fullClassHelp
@@ -67,26 +67,27 @@ enum classType {
 
 enum SubClasses { 
 	//Mage subclasses
-	atherMage,
+	aetherMage,
 	voidMage,
 	arcaneMage,
+	mageHelp,
 	
 	//Shaman subclasses
 	fireShaman,
 	waterShaman,
 	earthShaman,
 	airShaman,
-	
+	shamanHelp,
 	//Warlock subclasses
 	demonWarlock, 
 	bloodWarlock, 
 	diseaseWarlock,
-	
+	warlockHelp,
 	//Warrior subclasses
 	berserkerWarrior,
 	lightWarrior, 
 	templarWarrior,
-	
+	warriorHelp,
 	//Mecha subclasses
 	
 	
@@ -95,7 +96,7 @@ enum SubClasses {
 	stealthRouge,
 	lethalRouge, 
 	poisonRouge, 
-	
+	rogueHelp
 	
 	
 };
@@ -236,19 +237,35 @@ std::ostream &operator<<(std::ostream& stream, const damageSpell& damageSpellToP
 
 
 
-
+//YOU ARE NOT EXPECTED TO UNDERSTAND THIS
 //Literally all of the players fight mechanics
 void playerFightMechanics(Creature creature) { 
 	std::cout << "You are fighting " << creature.name << ".\n";
 		
+				
+			
 		
 		
 			int firstTurnChecker = 1;
 			bool runAttackMenuAgain = false; 
 			while(true) { 
+				
+				//Add 10 to mana every turn, if there is more than 100 mana, make it 100
+				user.mana = user.mana + 10;
+				if(user.mana > 100) { 
+					
+					int manaFiller = user.mana - 100;
+					user.mana = user.mana - manaFiller;
+					
+				}
+				
+				
+					
+				//Random stats for conditionals.
 				bool fightErrorMessage;
 				bool playerAlive; 
 				
+				//Messages for beating creature
 				if(creature.health <= 0) { 
 					std::cout << "You have slain " << creature.name << "!\n";
 					std::cout << "XP Awarded: " << creature.experienceGained << "\n";
@@ -256,7 +273,7 @@ void playerFightMechanics(Creature creature) {
 				}
 				
 				
-				
+			//Randomizes creatures attacks. 	
 			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true and fightErrorMessage == false) { 
 				int randomNumber;
 				srand( time(0));
@@ -283,6 +300,8 @@ void playerFightMechanics(Creature creature) {
 					sleep(2);
 				}
 			}
+			
+			//Displays death message and restarts battle
 			if(user.health < 0) { 
 					sleep(2);
 					std::cout << "\n\nYou Have Died.\n\n";
@@ -295,9 +314,12 @@ void playerFightMechanics(Creature creature) {
 					playerAlive = false; 
 					continue;
 				}
+			//More conditional variables
 			firstTurnChecker++; 
 			fightErrorMessage = false;
+			runAttackMenuAgain = false;
 			playerAlive = true;
+			
 			//Displays User Health and Mana 
 			std::cout << "Your HP: " << user.health << "/100\n";
 			if(user.classtype == mage or user.classtype == shaman or user.classtype == mecha or user.classtype == warlock or user.subclass == templarWarrior) {
@@ -344,43 +366,72 @@ void playerFightMechanics(Creature creature) {
 						int damageSpellChooser; 
 						std::cin >> damageSpellChooser; 
 					
+						//Casts spell
 						switch(damageSpellChooser) { 
-							case 1: 
+							case 1:
+								if(user.mana < user.damageSpells.at(0).manaCost) { 
+									std::cout << "\nYou Do Not Have Enough Mana!\n";
+									runAttackMenuAgain = true;
+									break;
+								}
 								creature.health =  creature.health - user.damageSpells.at(0).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(0).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(0).manaCost; 
 								break;
 							case 2: 
+								if(user.mana < user.damageSpells.at(1).manaCost) { 
+									std::cout << "\nYou Do Not Have Enough Mana!\n";
+									runAttackMenuAgain = true;
+									break;
+								}
 								creature.health =  creature.health - user.damageSpells.at(1).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(1).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(1).manaCost; 
 								break;
 							case 3:
+								if(user.mana < user.damageSpells.at(2).manaCost) { 
+										std::cout << "\nYou Do Not Have Enough Mana!\n";
+										runAttackMenuAgain = true;
+										break;
+									}
 								creature.health =  creature.health - user.damageSpells.at(2).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(2).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(2).manaCost; 
 								break;
 							case 4: 
+								if(user.mana < user.damageSpells.at(3).manaCost) { 
+										std::cout << "\nYou Do Not Have Enough Mana!\n";
+										runAttackMenuAgain = true;
+										break;
+									}	
 								creature.health =  creature.health - user.damageSpells.at(3).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(3).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(3).manaCost; 
 								break;
 							case 5: 
+									if(user.mana < user.damageSpells.at(4).manaCost) { 
+										std::cout << "\nYou Do Not Have Enough Mana!\n";
+										runAttackMenuAgain = true;
+										break;
+									}
 								creature.health =  creature.health - user.damageSpells.at(4).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(4).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(4).manaCost; 
 								break;
 							case 6:
+								//Pass
 								continue;
 							case 7:
+								//Returns to menu
 								runAttackMenuAgain = true;
 								continue;
 							default: 
+								//Error
 								errorMessage();
 								runAttackMenuAgain = true;
 								
@@ -448,6 +499,20 @@ int main() {
 	
 		std::cin >> nameConfirm; 
 	
+		//Confirms user didnt fuck up their name
+		if (nameConfirm == "Y" or nameConfirm == "y") {
+			break;
+		}
+		
+		else if (nameConfirm == "N" or nameConfirm == "n") { 
+			std::cout << "\n";
+			continue;
+		}	
+		else { 
+			std::cout << "\nAnswer not valid, try again\n";
+			cinClear();
+			continue;
+		} 
 		//Confirms user didnt fuck up their name
 		if (nameConfirm == "Y" or nameConfirm == "y") {
 			break;
