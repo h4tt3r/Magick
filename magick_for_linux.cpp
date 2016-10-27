@@ -161,7 +161,7 @@ class Creature {
 		
 		//Spell Damage
 		std::vector<damageSpell> damageSpells;
-		
+		std::vector<healingSpell> healingSpells;
 		
 		//Conditional stats
 		int vampireBloodLevel;
@@ -190,6 +190,7 @@ Creature user;
 void fullClassChoose() {
 	
 	std::cout << "Please choose a class:\n"
+				"Classes are your characters skill set, and will determine your spell casting throughout the game.\n"
 					"1. Mage\n"
 					"2. Warlock\n"
 					"3. Shaman\n"
@@ -203,6 +204,7 @@ void fullClassChoose() {
 //Other note: Shaman holds a neutral party.
 void darkClassChoose() { 
 	std::cout << "Please choose a class:\n"
+				"Classes are your characters skill set, and will determine your spell casting throughout the game.\n"
 					"1. Mage\n"
 					"2. Warlock\n"
 					"3. Shaman\n"
@@ -213,6 +215,7 @@ void darkClassChoose() {
 //This is a light class list. Note: Only for trolls, elves, and dwarves. 
 void lightClassChoose() { 
 	std::cout << "Please choose a class:\n"
+				"Classes are your characters skill set, and will determine your spell casting throughout the game.\n"
 					"1. Mage\n"
 					"2. Shaman\n"
 					"3. Mecha\n"
@@ -347,7 +350,7 @@ void playerFightMechanics(Creature creature) {
 				switch(chooseAttackType) { 
 					//CHOOSEATTACKTYPE CASE 1 BEGIN
 					case 1: 
-						//DSP is Damage Spell Something
+						//Displays all damage spells in players arsenal
 						std::cout << "Choose a damage spell:\n";
 						std::cout << "1. " << user.damageSpells.at(0).spellName;
 						std::cout << "\n";
@@ -450,7 +453,17 @@ void playerFightMechanics(Creature creature) {
 				
 				
 				case 2:
-				
+					if(user.classtype == mage and user.subclass == aetherMage) { 
+						std::cout << "1. " << user.healingSpells.at(0).spellName << "\n";
+						std::cout << "2. " << user.healingSpells.at(1).spellName << "\n" ;
+						std::cout << "3. " << user.healingSpells.at(2).spellName << "\n" ;
+						
+						int chooseHealingSpellLightMage;
+						createIcon();
+						std::cin >> chooseHealingSpellLightMage;
+					 
+						
+					}
 					break;
 			
 				case 3:
@@ -584,6 +597,7 @@ int main() {
 		//Asks players for race. 
 		int raceChoose; 
 		std::cout << "\nPlease choose a race:\n"
+					"Races are the species of your character, and will determine your starting point and many other game factors.\n"
 					"1. Elf\n"
 					"2. Human\n"
 					"3. Vampire\n"
@@ -968,7 +982,8 @@ int main() {
 		while(true) { 
 			case mage: 
 				while(true) { 
-					std::cout << "Please choose a subclass for the class " << user.classtype << ":";
+					std::cout << "Please choose a subclass for the class Mage: "
+					std::cout << "Subclasses are specifications for each class, and will determine your attacks and spells.\n";
 					std::cout <<  "1. Light Mage\n" << 
 								"2. Dark Mage\n" << 
 								"3. Arcane Mage\n" << 
