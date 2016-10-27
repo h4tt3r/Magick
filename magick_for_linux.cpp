@@ -578,6 +578,8 @@ void playerFightMechanics(Creature creature) {
 			}
 }	
 
+
+
 //GAME START 
 int main() {
 
