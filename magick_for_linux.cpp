@@ -252,7 +252,7 @@ void playerFightMechanics(Creature creature) {
 				
 			
 		
-		
+			bool healthSpellChecker;
 			int firstTurnChecker = 1;
 			bool runAttackMenuAgain = false; 
 			while(true) { 
@@ -288,7 +288,7 @@ void playerFightMechanics(Creature creature) {
 				
 				
 			//Randomizes creatures attacks. 	
-			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true and fightErrorMessage == false) { 
+			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true and fightErrorMessage == false and healthSpellChecker == false) { 
 				int randomNumber;
 				srand( time(0));
 				randomNumber = rand() % 3 + 1;
@@ -333,7 +333,7 @@ void playerFightMechanics(Creature creature) {
 					sleep(2);
 					std::cout << "Restarting Battle...\n\n\n";
 					sleep(2);
-					user.health = 100;
+					user.health = user.defaultHealth;
 					user.mana = 100;
 					creature.health = creature.defaultHealth;
 					playerAlive = false; 
@@ -344,6 +344,7 @@ void playerFightMechanics(Creature creature) {
 			fightErrorMessage = false;
 			runAttackMenuAgain = false;
 			playerAlive = true;
+			healthSpellChecker = false;
 			
 			//Displays User Health and Mana 
 			std::cout << "Your HP: " << user.health << "/" << user.defaultHealth << "\n";
@@ -401,6 +402,8 @@ void playerFightMechanics(Creature creature) {
 								}
 								creature.health =  creature.health - user.damageSpells.at(0).damage;
 								sleep(1);
+								std::cout << "You use " << user.damageSpells.at(0).spellName << "\n";
+								sleep(1);
 								std::cout << "Your attack does " << user.damageSpells.at(0).damage << " points of damage\n";
 								sleep(1);
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
@@ -414,9 +417,11 @@ void playerFightMechanics(Creature creature) {
 								}
 								creature.health =  creature.health - user.damageSpells.at(1).damage;
 								sleep(1);
+								std::cout << "You use " << user.damageSpells.at(1).spellName << "\n";
+								sleep(1);
 								std::cout << "\nYour attack does " << user.damageSpells.at(1).damage << " points of damage\n";
 								sleep(1);
-								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n\n";
 							
 								user.mana = user.mana - user.damageSpells.at(1).manaCost; 
 								break;
@@ -428,9 +433,11 @@ void playerFightMechanics(Creature creature) {
 									}
 								creature.health =  creature.health - user.damageSpells.at(2).damage;
 								sleep(1);
+								std::cout << "You use " << user.damageSpells.at(2).spellName << "\n" ;
+								sleep(1);
 								std::cout << "\nYour attack does " << user.damageSpells.at(2).damage << " points of damage\n";
 								sleep(1);
-								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n\n";
 								user.mana = user.mana - user.damageSpells.at(2).manaCost; 
 								break;
 							case 4: 
@@ -441,9 +448,11 @@ void playerFightMechanics(Creature creature) {
 									}	
 								creature.health =  creature.health - user.damageSpells.at(3).damage;
 								sleep(1);
+								std::cout << "You use " << user.damageSpells.at(3).spellName << "\n";
+								sleep(1);
 								std::cout << "\nYour attack does " << user.damageSpells.at(3).damage << " points of damage\n";
 								sleep(1);
-								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n\n";
 								user.mana = user.mana - user.damageSpells.at(3).manaCost; 
 								break;
 							case 5: 
@@ -454,9 +463,11 @@ void playerFightMechanics(Creature creature) {
 									}
 								creature.health =  creature.health - user.damageSpells.at(4).damage;
 								sleep(1);
+								std::cout << "You use " << user.damageSpells.at(4).spellName << "\n" ;
+								sleep(1);
 								std::cout << "\nYour attack does " << user.damageSpells.at(4).damage << " points of damage\n";
 								sleep(1);
-								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n\n";
 								user.mana = user.mana - user.damageSpells.at(4).manaCost; 
 								break;
 							case 6:
@@ -484,7 +495,7 @@ void playerFightMechanics(Creature creature) {
 					
 					//CASE 1 END
 				
-				
+				//CASE 2 BEGIN
 				case 2:
 					if(user.classtype == mage and user.subclass == aetherMage) { 
 						std::cout << "1 - " << user.healingSpells.at(0).spellName << "\n";
@@ -500,9 +511,11 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(1).manaCost) { 
 									std::cout << "\nYou Do Not Have Enough Mana!\n";
 									runAttackMenuAgain = true;
+									
 									break;
 								}
-								std::cout << "You use " << user.healingSpells.at(0).spellName << "\n";
+								sleep(1);
+								std::cout << "\nYou use " << user.healingSpells.at(0).spellName << "\n";
 								user.health = user.health + user.healingSpells.at(0).healthAdded;
 								user.mana = user.mana - user.healingSpells.at(2).manaCost;
 								if(user.health > 100) { 
@@ -510,7 +523,9 @@ void playerFightMechanics(Creature creature) {
 									decreaseHealth = user.health - 100;
 									user.health = user.health - decreaseHealth;
 								}
+								sleep(1);
 								std::cout << "Your HP is now " << user.health << "!\n";
+								healthSpellChecker = true;
 								break; 
 								
 							case 2: 
@@ -519,7 +534,8 @@ void playerFightMechanics(Creature creature) {
 									runAttackMenuAgain = true;
 									break;
 								}
-								std::cout << "You use " << user.healingSpells.at(1).spellName << "\n";
+								sleep(1);
+								std::cout << "\nYou use " << user.healingSpells.at(1).spellName << "\n";
 								user.health = user.health + user.healingSpells.at(1).healthAdded;
 								user.mana = user.mana - user.healingSpells.at(2).manaCost;
 								if(user.health > 100) { 
@@ -527,7 +543,9 @@ void playerFightMechanics(Creature creature) {
 									decreaseHealth = user.health - 100;
 									user.health = user.health - decreaseHealth;
 								}
+								sleep(1);
 								std::cout << "Your HP is now " << user.health << "!\n";
+								healthSpellChecker = true;
 								break;
 							
 							case 3: 
@@ -536,7 +554,8 @@ void playerFightMechanics(Creature creature) {
 										runAttackMenuAgain = true;
 										break;
 									}
-								std::cout << "You use " << user.healingSpells.at(2).spellName << "\n";
+								sleep(1);
+								std::cout << "\nYou use " << user.healingSpells.at(2).spellName << "\n";
 								user.health = user.health + user.healingSpells.at(2).healthAdded;
 								user.mana = user.mana - user.healingSpells.at(2).manaCost;
 								if(user.health > 100) { 
@@ -544,11 +563,23 @@ void playerFightMechanics(Creature creature) {
 									decreaseHealth = user.health - 100;
 									user.health = user.health - decreaseHealth;
 								}
+								sleep(1);
 								std::cout << "Your HP is now " << user.health << "!\n";
+								healthSpellChecker = true;
 								break;
 						 
 						 
 						}
+						
+					}
+					
+					else if(user.classtype == warlock) { 
+						std::cout << "1 - " <<  user.healingSpells.at(0).spellName << "\n";
+						std::cout << "2 - " << user.healingSpells.at(1).spellName << "\n"; 
+						std::cout << "3 - " << user.healingSpells.at(2).spellName << "\n";
+						
+						
+						
 						
 					}
 					break;
