@@ -278,11 +278,11 @@ void playerFightMechanics(Creature creature) {
 					std::cout << "\nYou have slain " << creature.name << "!\n";
 					
 					sleep(1);
-					std::cout << "\nXP Awarded: " << creature.experienceGained << "\n\n";
-					user.experience = user.experience + creature.experienceGained;
+					std::cout << "\nXP Awarded: " << creature.experienceAwarded << "\n\n";
+					user.experience = user.experience + creature.experienceAwarded;
 					sleep(1);
-					std::cout << "Rall Awarded: " << creature.rallGained << "\n\n";
-					user.rall = user.rall + user.rallGained;
+					std::cout << "Rall Awarded: " << creature.rallAwarded << "\n\n";
+					user.rall = user.rall + user.rallAwarded;
 					break;
 				}
 				
