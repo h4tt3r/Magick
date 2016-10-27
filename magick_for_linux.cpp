@@ -244,6 +244,7 @@ std::ostream &operator<<(std::ostream& stream, const damageSpell& damageSpellToP
 //Literally all of the players fight mechanics
 void playerFightMechanics(Creature creature) { 
 	std::cout << "You are fighting " << creature.name << ".\n";
+	std::cout << "Its HP is " << creature.health << "!\n";
 		
 				
 			
@@ -455,16 +456,56 @@ void playerFightMechanics(Creature creature) {
 				case 2:
 					if(user.classtype == mage and user.subclass == aetherMage) { 
 						std::cout << "1. " << user.healingSpells.at(0).spellName << "\n";
-						std::cout << "2. " << user.healingSpells.at(1).spellName << "\n" ;
-						std::cout << "3. " << user.healingSpells.at(2).spellName << "\n" ;
+						std::cout << "2. " << user.healingSpells.at(1).spellName << "\n";
+						std::cout << "3. " << user.healingSpells.at(2).spellName << "\n";
 						
 						int chooseHealingSpellLightMage;
 						createIcon();
 						std::cin >> chooseHealingSpellLightMage;
 					 
+						switch(chooseHealingSpellLightMage) { 
+							case 1:
+								std::cout << "You use " << user.healingSpells.at(0).spellName << "\n";
+								user.health = user.health + user.healingSpells.at(0).healthAdded;
+								user.mana = user.mana - user.healingSpells.at(2).manaCost;
+								if(user.health > 100) { 
+									int decreaseHealth;
+									decreaseHealth = user.health - 100;
+									user.health = user.health - decreaseHealth;
+								}
+								std::cout << "Your HP is now " << user.health << "!\n";
+								break; 
+							case 2: 
+								std::cout << "You use " << user.healingSpells.at(1).spellName << "\n";
+								user.health = user.health + user.healingSpells.at(1).healthAdded;
+								user.mana = user.mana - user.healingSpells.at(2).manaCost;
+								if(user.health > 100) { 
+									int decreaseHealth;
+									decreaseHealth = user.health - 100;
+									user.health = user.health - decreaseHealth;
+								}
+								std::cout << "Your HP is now " << user.health << "!\n";
+								break;
+							
+							case 3: 
+								std::cout << "You use " << user.healingSpells.at(2).spellName << "\n";
+								user.health = user.health + user.healingSpells.at(2).healthAdded;
+								user.mana = user.mana - user.healingSpells.at(2).manaCost;
+								if(user.health > 100) { 
+									int decreaseHealth;
+									decreaseHealth = user.health - 100;
+									user.health = user.health - decreaseHealth;
+								}
+								std::cout << "Your HP is now " << user.health << "!\n";
+								break;
+						 
+						 
+						}
 						
 					}
 					break;
+					
+					//CASE 2 END
 			
 				case 3:
 			
@@ -488,7 +529,9 @@ void playerFightMechanics(Creature creature) {
 				
 			}
 }	
-	
+
+
+
 //GAME START 
 int main() {
 
@@ -498,7 +541,11 @@ int main() {
 
 	while (true) { 
 		//Acquires players first name 
-		std::string introOne = "Welcome to The World of Magick\nWhat is your name?\n";
+		std::string introOne = "Welcome to The World of Magick\n" 
+								"Magick is a world filled with adventure, danger, both light and dark.\n"
+								"It has chosen you, child, to enter its depths.\n"
+								"What is your name?\n";
+								
 	
 		std::cout << introOne;
 	
@@ -597,7 +644,7 @@ int main() {
 		//Asks players for race. 
 		int raceChoose; 
 		std::cout << "\nPlease choose a race:\n"
-					"Races are the species of your character, and will determine your starting point and many other game factors.\n"
+					"Races are the species of your character\nThey will determine your starting point and many other game factors.\n"
 					"1. Elf\n"
 					"2. Human\n"
 					"3. Vampire\n"
@@ -880,36 +927,32 @@ int main() {
 			
 			
 		
-		std::string classHelpMage = "Mage - Mages draw their magick from one of the three celestial worlds; these worlds include:\n"
-									"The Aether - Very little is known about this realm, it is the place where light mages draw their energy.\n"
-									"The Void - This place contains the demons of Algoria, and can be reached in dreams. This is the world in which dark mages draw their energy.\n"
-									"The Arcane World - Called 'The Invisible World' by many. Exists as a realm that lives under the surface of ours, filled with its own beings and powers.\n"
-									"\nThis is where arcane mages draw their power.\n"
-									"Mages use raw energy from these worlds, and use discipline and intelligence to master their art.\n\n"; 
+		std::string classHelpMage = "Mage - Mages draw their magick from one of the three celestial worlds; these worlds include:\n\n"
+									"The Aether - Very little is known about this realm, it is the place where light mages draw their energy.\n\n"
+									"The Void - This place contains the demons of Algoria, and can be reached in dreams.\nThis is the world in which dark mages draw their energy.\n\n"
+									"The Arcane World - Called 'The Invisible World' by many.\nExists as a realm that lives under the surface of ours, filled with its own beings and powers.\n"
+									"This is where arcane mages draw their power.\n\n"
+									"Mages use raw energy from these worlds, as well as discipline and intelligence to master their art.\n\n"; 
 		
 		std::string classHelpShaman = "Shaman - Shaman draw their magick from the elements of Algoria.\n"
 										"The elements used by Shaman are Earth, Water, Fire, and Air.\n"
 										"Shaman respect nature, and believe it should be protected at all costs.\n"
-										"Shamans magick can be beautiful, but if placed in the wrong hands, can easily spread out of control, and become dangerous.\n"; 
+										"Shamans magick can be beautiful, but if placed in the wrong hands, can easily spread out of control, and become dangerous.\n\n"; 
 		
 		std::string classHelpWarlock = "Warlock - Warlock magick is the darkest form of arts, drawing their energy from the beings of the void, demons.\n"
 										"A warlock's magick is used to harm and delude, and there are several specializations of warlock magick. \n"
 										"Warlocks magick cannot be used to heal by normal means, and must use life force from others to heal or help.\n"
-										"To cast spells, warlocks use magick drawn from demons of the void to create energy.\n";
+										"To cast spells, warlocks use magick drawn from demons of the void to create energy.\n\n";
 		
-		std::string classHelpMecha = "Mecha -";
+		std::string classHelpMecha = "Mecha -\n\n";
 		
-		std::string classHelpRogue = "Rogue - Rogues are a kindred group of thieves and assassins, bound by blood to fulfill bounties. They utilize trinkets and gadgets to conceal themselves or their weapon of choice.\n"
-										"Rogues are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n"
-										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n"
-										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n"
-										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; 
+		std::string classHelpRogue = "Rogue - Rogues are a kindred group of thieves and assassins.\nBound by blood to fulfill bounties.\n"
+									"They utilize trinkets and gadgets to conceal themselves or their weapon of choice.\n\n"
+										
 		
 		std::string classHelpWarrior = "Warrior - Warriors are the stock of any militarized nation within Algoria. Untimid, they stride into battle, brash to bash their foes.\n"
-										"Warriors commonly classify themselves within a certain culture or race, thus determining their balances in warfare.\n"
-										"Berserker - Berserker warriors bear heavy-metal armors, they use large weapons, long swords and the like. They can tap into a fiery rage, allowing them to become deadly killing machines.\n"
-										"Light - Light warriors skirmish behind berserkers, and wield finely tempered blades and small maces. They focus in dealing damage, not taking it.\n"
-										"Templar - Templars are zealous scholars, they use techniques passed down for ages to neutralize and drain magic. After doing this, they can swiftly kill their magic using enemies.\n";
+										"Warriors commonly classify themselves within a certain culture or race, thus determining their balances in warfare.\n\n"
+										
 			
 			//Decides whether to break or continue loop based on input for players using the full list
 			if (displayedList == fullList) { 
@@ -976,16 +1019,27 @@ int main() {
 		}
 		
 		
-		
+		std::string warriorSubClassHelp = "WARRIOR:"
+										"Berserker - Berserker warriors bear heavy-metal armors, they use large weapons, long swords and the like.\nThey can tap into a fiery rage, allowing them to become deadly killing machines.\n\n"
+										"Light - Light warriors skirmish behind berserkers, and wield finely tempered blades and small maces.\nThey focus in dealing damage, not taking it.\n\n"
+										"Templar - Templars are zealous scholars, they use techniques passed down for ages to neutralize and drain magic.\nAfter doing this, they can swiftly kill their magic-using enemies.\n\n";
+										
+										
+		std::string rogueSubClassHelp = "ROGUE:"
+										"Rogues are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n\n"
+										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n\n"
+										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n\n"
+										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n\n"; 
+										
 		
 		switch(user.classtype) { 
 		while(true) { 
 			case mage: 
 				while(true) { 
-					std::cout << "Please choose a subclass for the class Mage: "
+					std::cout << "Please choose a subclass for the class Mage: ";
 					std::cout << "Subclasses are specifications for each class, and will determine your attacks and spells.\n";
-					std::cout <<  "1. Light Mage\n" << 
-								"2. Dark Mage\n" << 
+					std::cout <<  "1. Aether Mage\n" << 
+								"2. Void Mage\n" << 
 								"3. Arcane Mage\n" << 
 								"4. Subclass Info\n"; 
 								int chooseSubClassMage;
@@ -1061,5 +1115,6 @@ int main() {
 		
 		}
 }
+
 
 
