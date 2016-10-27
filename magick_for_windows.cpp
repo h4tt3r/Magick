@@ -27,7 +27,7 @@ void cinClear(void) {
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-//YOU ARE NOT EXPECTED TO UNDERSTAND THIS 
+
 
 
 
@@ -59,7 +59,7 @@ enum classType {
 	shaman, 
 	mecha,
 	warrior,
-	rouge,
+	rogue,
 	lightClassHelp,
 	darkClassHelp,
 	fullClassHelp
@@ -78,29 +78,25 @@ enum SubClasses {
 	earthShaman,
 	airShaman,
 	shamanHelp,
-	
 	//Warlock subclasses
 	demonWarlock, 
 	bloodWarlock, 
 	diseaseWarlock,
 	warlockHelp,
-	
 	//Warrior subclasses
 	berserkerWarrior,
 	lightWarrior, 
 	templarWarrior,
 	warriorHelp,
-	
 	//Mecha subclasses
 	
 	
 	
 	//Rouge subclasses
-	stealthRogue,
-	lethalRogue, 
-	poisonRogue, 
+	stealthRouge,
+	lethalRouge, 
+	poisonRouge, 
 	rogueHelp
-	
 	
 	
 };
@@ -161,12 +157,10 @@ class Creature {
 		//Non Player Stats
 		int experienceGained;
 		int defaultHealth;
-		int rallGained;
 		
 		
 		//Spell Damage
 		std::vector<damageSpell> damageSpells;
-		std::vector<healingSpell> healingSpells; 
 		
 		
 		//Conditional stats
@@ -178,6 +172,7 @@ class Creature {
 		int stamRegRate;
 		bool isVampire;
 };
+	
 
 Creature user;
 
@@ -200,7 +195,7 @@ void fullClassChoose() {
 					"3. Shaman\n"
 					"4. Mecha\n"
 					"5. Warrior\n"
-					"6. Rogue\n"
+					"6. Rouge\n"
 					"7. Class Info\n";
 };
 
@@ -211,7 +206,7 @@ void darkClassChoose() {
 					"1. Mage\n"
 					"2. Warlock\n"
 					"3. Shaman\n"
-					"4. Rogue\n"
+					"4. Rouge\n"
 					"5. Class Info\n";
 }
 
@@ -240,63 +235,73 @@ std::ostream &operator<<(std::ostream& stream, const damageSpell& damageSpellToP
 
 
 
-//Checks if the health his above 100, if so, brings health back down to 100
-void checkHealthFull() { 
-		if(user.health > 100) { 
-			int subtractFromHealth = user.health - 100; 
-			user.health = user.health - subtractFromHealth; 
-		}
-}
 
 
-
-
-
+//YOU ARE NOT EXPECTED TO UNDERSTAND THIS
 //Literally all of the players fight mechanics
 void playerFightMechanics(Creature creature) { 
 	std::cout << "You are fighting " << creature.name << ".\n";
 		
+				
+			
 		
 		
 			int firstTurnChecker = 1;
 			bool runAttackMenuAgain = false; 
 			while(true) { 
+				
+				//Add 10 to mana every turn, if there is more than 100 mana, make it 100
+				user.mana = user.mana + 10;
+				if(user.mana > 100) { 
+					
+					int manaFiller = user.mana - 100;
+					user.mana = user.mana - manaFiller;
+					
+				}
+				
+				
+					
+				//Random stats for conditionals.
+				bool fightErrorMessage;
 				bool playerAlive; 
 				
+				//Messages for beating creature
 				if(creature.health <= 0) { 
 					std::cout << "You have slain " << creature.name << "!\n";
-					Sleep(2);
 					std::cout << "XP Awarded: " << creature.experienceGained << "\n";
-					Sleep(2);
-					std::cout << "Rall Awarded: " << creature.rallGained << "\n";
-					std::string endFight;
-					std::cout << "Press Enter To Continue\n";
-					std:: cin >> endFight;
 					break;
 				}
 				
 				
-				
-			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true) { 
+			//Randomizes creatures attacks. 	
+			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true and fightErrorMessage == false) { 
 				int randomNumber;
 				srand( time(0));
 				randomNumber = rand() % 3 + 1;
 				if(randomNumber == 1) { 
 					user.health = user.health - creature.damageSpells.at(0).damage;
 					std::string currentSpell = creature.damageSpells.at(0).spellName;
+		
 					std::cout << creature.name << " uses " << currentSpell << "\n";
+					Sleep(2);
 				}
 				else if(randomNumber == 2) { 
 					user.health = user.health - creature.damageSpells.at(1).damage;
 					std::string currentSpell = creature.damageSpells.at(1).spellName;
+					
 					std::cout << creature.name << " uses " << currentSpell << "\n";
+					Sleep(2);
 				}
 				else if(randomNumber == 3) { 
 					user.health = user.health - creature.damageSpells.at(2).damage;
 					std::string currentSpell = creature.damageSpells.at(2).spellName;
+					
 					std::cout << creature.name << " uses " << currentSpell << "\n";
+					Sleep(2);
 				}
 			}
+			
+			//Displays death message and restarts battle
 			if(user.health < 0) { 
 					Sleep(2);
 					std::cout << "\n\nYou Have Died.\n\n";
@@ -309,8 +314,12 @@ void playerFightMechanics(Creature creature) {
 					playerAlive = false; 
 					continue;
 				}
+			//More conditional variables
 			firstTurnChecker++; 
+			fightErrorMessage = false;
+			runAttackMenuAgain = false;
 			playerAlive = true;
+			
 			//Displays User Health and Mana 
 			std::cout << "Your HP: " << user.health << "/100\n";
 			if(user.classtype == mage or user.classtype == shaman or user.classtype == mecha or user.classtype == warlock or user.subclass == templarWarrior) {
@@ -324,11 +333,11 @@ void playerFightMechanics(Creature creature) {
 			//Lets the choose which type of attack/healing thing they want
 			
 			
-				std::cout << "Choose which  type of spell/attack you wish to use:\n"
+				std::cout << "Choose which spell/attack you wish to use:\n"
 							"1. Damage\n"
 							"2. Healing\n"
-							"3. Items\n"
-							"4. Flee\n";
+							"3. Effects\n"
+							"4. Items\n";
 				
 				int chooseAttackType; 
 				createIcon();
@@ -357,43 +366,72 @@ void playerFightMechanics(Creature creature) {
 						int damageSpellChooser; 
 						std::cin >> damageSpellChooser; 
 					
+						//Casts spell
 						switch(damageSpellChooser) { 
-							case 1: 
+							case 1:
+								if(user.mana < user.damageSpells.at(0).manaCost) { 
+									std::cout << "\nYou Do Not Have Enough Mana!\n";
+									runAttackMenuAgain = true;
+									break;
+								}
 								creature.health =  creature.health - user.damageSpells.at(0).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(0).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(0).manaCost; 
 								break;
 							case 2: 
+								if(user.mana < user.damageSpells.at(1).manaCost) { 
+									std::cout << "\nYou Do Not Have Enough Mana!\n";
+									runAttackMenuAgain = true;
+									break;
+								}
 								creature.health =  creature.health - user.damageSpells.at(1).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(1).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(1).manaCost; 
 								break;
 							case 3:
+								if(user.mana < user.damageSpells.at(2).manaCost) { 
+										std::cout << "\nYou Do Not Have Enough Mana!\n";
+										runAttackMenuAgain = true;
+										break;
+									}
 								creature.health =  creature.health - user.damageSpells.at(2).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(2).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(2).manaCost; 
 								break;
 							case 4: 
+								if(user.mana < user.damageSpells.at(3).manaCost) { 
+										std::cout << "\nYou Do Not Have Enough Mana!\n";
+										runAttackMenuAgain = true;
+										break;
+									}	
 								creature.health =  creature.health - user.damageSpells.at(3).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(3).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(3).manaCost; 
 								break;
 							case 5: 
+									if(user.mana < user.damageSpells.at(4).manaCost) { 
+										std::cout << "\nYou Do Not Have Enough Mana!\n";
+										runAttackMenuAgain = true;
+										break;
+									}
 								creature.health =  creature.health - user.damageSpells.at(4).damage;
 								std::cout << "Your attack does " << user.damageSpells.at(4).damage << " points of damage\n";
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(4).manaCost; 
 								break;
 							case 6:
+								//Pass
 								continue;
 							case 7:
+								//Returns to menu
 								runAttackMenuAgain = true;
 								continue;
 							default: 
+								//Error
 								errorMessage();
 								runAttackMenuAgain = true;
 								
@@ -426,6 +464,8 @@ void playerFightMechanics(Creature creature) {
 				default: 
 					errorMessage();
 					cinClear();
+					fightErrorMessage = true;
+					
 					continue;
 				
 				}
@@ -434,7 +474,8 @@ void playerFightMechanics(Creature creature) {
 				
 				
 			}
-}		
+}	
+			
 
 //GAME START 
 int main() {
