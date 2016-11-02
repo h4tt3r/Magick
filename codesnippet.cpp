@@ -247,8 +247,8 @@ std::ostream &operator<<(std::ostream& stream, const damageSpell& damageSpellToP
 //Literally all of the players fight mechanics
 void playerFightMechanics(Creature creature) { 
 	std::cout << "You are fighting " << creature.name << ".\n";
-	std::cout << "Its HP is " << creature.health << "!\n";
-		
+	std::cout << "Her HP is " << creature.health << "!\n";
+	bool noMana;
 				
 			
 		
@@ -258,13 +258,11 @@ void playerFightMechanics(Creature creature) {
 			while(true) { 
 				
 				//Add 10 to mana every turn, if there is more than 100 mana, make it 100
-				user.mana = user.mana + 10;
-				if(user.mana > 100) { 
-					
-					int manaFiller = user.mana - 100;
-					user.mana = user.mana - manaFiller;
-					
+				if(noMana == false) { 	
+					user.mana = user.mana + 10;
 				}
+				
+				
 				
 				
 					
@@ -346,6 +344,8 @@ void playerFightMechanics(Creature creature) {
 			playerAlive = true;
 			healthSpellChecker = false;
 			
+			noMana = false;
+			
 			//Displays User Health and Mana 
 			std::cout << "Your HP: " << user.health << "/" << user.defaultHealth << "\n";
 			if(user.classtype == mage or user.classtype == shaman or user.classtype == mecha or user.classtype == warlock or user.subclass == templarWarrior) {
@@ -398,6 +398,7 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(0).manaCost) { 
 									std::cout << "\nYou Do Not Have Enough Mana!\n";
 									runAttackMenuAgain = true;
+									bool noMana = true;
 									break;
 								}
 								creature.health =  creature.health - user.damageSpells.at(0).damage;
@@ -413,6 +414,7 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(1).manaCost) { 
 									std::cout << "\nYou Do Not Have Enough Mana!\n";
 									runAttackMenuAgain = true;
+									bool noMana = true;
 									break;
 								}
 								creature.health =  creature.health - user.damageSpells.at(1).damage;
@@ -429,6 +431,7 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(2).manaCost) { 
 										std::cout << "\nYou Do Not Have Enough Mana!\n";
 										runAttackMenuAgain = true;
+										bool noMana = true;
 										break;
 									}
 								creature.health =  creature.health - user.damageSpells.at(2).damage;
@@ -444,6 +447,7 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(3).manaCost) { 
 										std::cout << "\nYou Do Not Have Enough Mana!\n";
 										runAttackMenuAgain = true;
+										noMana = true;
 										break;
 									}	
 								creature.health =  creature.health - user.damageSpells.at(3).damage;
@@ -459,6 +463,7 @@ void playerFightMechanics(Creature creature) {
 									if(user.mana < user.damageSpells.at(4).manaCost) { 
 										std::cout << "\nYou Do Not Have Enough Mana!\n";
 										runAttackMenuAgain = true;
+										noMana = true;
 										break;
 									}
 								creature.health =  creature.health - user.damageSpells.at(4).damage;
@@ -511,6 +516,7 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(1).manaCost) { 
 									std::cout << "\nYou Do Not Have Enough Mana!\n";
 									runAttackMenuAgain = true;
+									bool noMana = true;
 									
 									break;
 								}
@@ -518,9 +524,9 @@ void playerFightMechanics(Creature creature) {
 								std::cout << "\nYou use " << user.healingSpells.at(0).spellName << "\n";
 								user.health = user.health + user.healingSpells.at(0).healthAdded;
 								user.mana = user.mana - user.healingSpells.at(2).manaCost;
-								if(user.health > 100) { 
+								if(user.health > user.defaultHealth) { 
 									int decreaseHealth;
-									decreaseHealth = user.health - 100;
+									decreaseHealth = user.health - user.defaultHealth;
 									user.health = user.health - decreaseHealth;
 								}
 								sleep(1);
@@ -532,15 +538,16 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(1).manaCost) { 
 									std::cout << "\nYou Do Not Have Enough Mana!\n";
 									runAttackMenuAgain = true;
+									bool noMana = true;
 									break;
 								}
 								sleep(1);
 								std::cout << "\nYou use " << user.healingSpells.at(1).spellName << "\n";
 								user.health = user.health + user.healingSpells.at(1).healthAdded;
 								user.mana = user.mana - user.healingSpells.at(2).manaCost;
-								if(user.health > 100) { 
+								if(user.health > user.defaultHealth) { 
 									int decreaseHealth;
-									decreaseHealth = user.health - 100;
+									decreaseHealth = user.health - user.defaultHealth;
 									user.health = user.health - decreaseHealth;
 								}
 								sleep(1);
@@ -558,9 +565,9 @@ void playerFightMechanics(Creature creature) {
 								std::cout << "\nYou use " << user.healingSpells.at(2).spellName << "\n";
 								user.health = user.health + user.healingSpells.at(2).healthAdded;
 								user.mana = user.mana - user.healingSpells.at(2).manaCost;
-								if(user.health > 100) { 
+								if(user.health > user.defaultHealth) { 
 									int decreaseHealth;
-									decreaseHealth = user.health - 100;
+									decreaseHealth = user.health - user.defaultHealth;
 									user.health = user.health - decreaseHealth;
 								}
 								sleep(1);
@@ -608,107 +615,3 @@ void playerFightMechanics(Creature creature) {
 				
 			}
 }	
-
-
-
-
-int main() {
-	user.healthFromArmor = 50;
-	user.defaultHealth = 100 + user.healthFromArmor;
-	user.health = 100 + user.healthFromArmor;
-	user.mana = 100;
-	
-	
-	Creature snake;
-	snake.name = "Snake";
-	snake.health = 120;
-	snake.experienceAwarded = 150;
-	snake.rallAwarded = 50;
-	snake.defaultHealth = 100;
-	
-	damageSpell bite;
-	bite.damage = 40;
-	bite.spellName = "Bite";
-	snake.damageSpells.push_back(bite);
-	
-	damageSpell tailwhip;
-	tailwhip.damage = 50;
-	tailwhip.spellName = "Tail Whip";
-	snake.damageSpells.push_back(tailwhip);
-	
-	damageSpell poisonbite;
-	poisonbite.damage = 60;
-	poisonbite.spellName = "Poison Bite";
-	snake.damageSpells.push_back(poisonbite);
-	
-	
-	
-	
-	
-	damageSpell fireball;
-	fireball.manaCost = 10;
-	fireball.spellName = "Fireball";
-	fireball.damage = 20;
-	fireball.spellDescription = " - Does 20 damage, costs 10 mana";
-	user.damageSpells.push_back(fireball);
-	
-	damageSpell fireblast;
-	fireblast.manaCost = 20; 
-	fireblast.spellName = "Fireblast";
-	fireblast.damage = 30; 
-	fireblast.spellDescription = " - Does 30 damage, costs 20 mana";
-	user.damageSpells.push_back(fireblast);
-	
-	damageSpell firewhip;
-	firewhip.manaCost = 15;
-	firewhip.spellName = "Firewhip";
-	firewhip.damage = 25;
-	firewhip.spellDescription = " - Does 25 damage, costs 15 mana";
-	user.damageSpells.push_back(firewhip);
-	
-	damageSpell fireblow;
-	fireblow.manaCost = 20;
-	fireblow.spellName = "Fireblow";
-	fireblow.damage = 25;
-	fireblow.spellDescription = " - Does 25 damage, costs 25 mana";
-	user.damageSpells.push_back(fireblow);
-	
-	damageSpell asteroid;
-	asteroid.manaCost = 40;
-	asteroid.spellName = "Asteroid";
-	asteroid.damage = 45;
-	asteroid.spellDescription = " - Does 45 damage, costs 40 mana";
-	user.damageSpells.push_back(asteroid);
-	
-	
-	healingSpell rejuvenation;
-	rejuvenation.healthAdded = 30;
-	rejuvenation.spellName = "Rejuvenation";
-	rejuvenation.manaCost = 40;
-	user.healingSpells.push_back(rejuvenation);
-	
-	healingSpell basicHeal;
-	basicHeal.healthAdded = 15; 
-	basicHeal.spellName = "Basic Heal"; 
-	basicHeal.manaCost = 15;
-	user.healingSpells.push_back(basicHeal);
-	
-	healingSpell restoration;
-	restoration.healthAdded = 25;
-	restoration.spellName = "Restoration";
-	restoration.manaCost = 35;
-	user.healingSpells.push_back(restoration);
-	
-	
-	
-	
-	
-	
-	
-	user.classtype = mage;
-	user.subclass = aetherMage; 
-	playerFightMechanics(snake);
-	
-	
-}
-
