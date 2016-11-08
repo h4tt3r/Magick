@@ -193,7 +193,7 @@ Creature user;
 void fullClassChoose() {
 	
 	std::cout << "Please choose a class:\n"
-				"Classes are your characters skill set, and will determine your spell casting throughout the game.\n"
+				"Classes are your characters skill set.\nThey will determine your spell casting throughout the game.\n"
 					"1 - Mage\n"
 					"2 - Warlock\n"
 					"3 - Shaman\n"
@@ -207,7 +207,7 @@ void fullClassChoose() {
 //Other note: Shaman holds a neutral party.
 void darkClassChoose() { 
 	std::cout << "Please choose a class:\n"
-				"Classes are your characters skill set, and will determine your spell casting throughout the game.\n"
+				"Classes are your characters skill set.\nThey will determine your spell casting throughout the game.\n"
 					"1 - Mage\n"
 					"2 - Warlock\n"
 					"3 - Shaman\n"
@@ -218,7 +218,7 @@ void darkClassChoose() {
 //This is a light class list. Note: Only for trolls, elves, and dwarves. 
 void lightClassChoose() { 
 	std::cout << "Please choose a class:\n"
-				"Classes are your characters skill set, and will determine your spell casting throughout the game.\n"
+				"Classes are your characters skill set.\nThey will determine your spell casting throughout the game.\n"
 					"1 - Mage\n"
 					"2 - Shaman\n"
 					"3 - Mecha\n"
@@ -918,6 +918,7 @@ int main() {
 			switch(classChoose) { 
 				case 1: 
 					user.classtype = mage;
+					break
 					
 				case 2:
 					user.classtype = warlock;
