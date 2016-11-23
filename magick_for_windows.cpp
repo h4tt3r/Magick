@@ -1,3 +1,11 @@
+//Written and designed by Aiden Calvert and Luke Carey 
+
+/*
+	Any code with the symbol *** in comments above it can be ignored. 
+	The code was most likely put there so geany would stop displaying useless warning messages
+	
+*/
+
 #include <iostream>
 #include <string>
 #include <limits>
@@ -88,8 +96,11 @@ enum SubClasses {
 	lightWarrior, 
 	templarWarrior,
 	warriorHelp,
-	//Mecha subclasses
 	
+	//Mecha subclasses
+	golemMecha,
+	weaponsMecha,
+	mechaHelp,
 	
 	
 	//Rouge subclasses
@@ -152,16 +163,19 @@ class Creature {
 		int speed;
 		int health;
 		int baseDamage;
-		
-		
-		//Non Player Stats
-		int experienceGained;
+		int experience;
+		int rall;
+		int healthFromArmor;
 		int defaultHealth;
 		
 		
+		//Non Player Stats
+		int experienceAwarded;
+		int rallAwarded;
+		
 		//Spell Damage
 		std::vector<damageSpell> damageSpells;
-		
+		std::vector<healingSpell> healingSpells;
 		
 		//Conditional stats
 		int vampireBloodLevel;
@@ -190,34 +204,37 @@ Creature user;
 void fullClassChoose() {
 	
 	std::cout << "Please choose a class:\n"
-					"1. Mage\n"
-					"2. Warlock\n"
-					"3. Shaman\n"
-					"4. Mecha\n"
-					"5. Warrior\n"
-					"6. Rouge\n"
-					"7. Class Info\n";
+				"Classes are your characters skill set.\nThey will determine your spell casting throughout the game.\n"
+					"1 - Mage\n"
+					"2 - Warlock\n"
+					"3 - Shaman\n"
+					"4 - Mecha\n"
+					"5 - Warrior\n"
+					"6 - Rouge\n"
+					"7 - Class Info\n";
 };
 
 //This is a dark class list (except for shaman). Note: Only for Druids and Orcs
 //Other note: Shaman holds a neutral party.
 void darkClassChoose() { 
 	std::cout << "Please choose a class:\n"
-					"1. Mage\n"
-					"2. Warlock\n"
-					"3. Shaman\n"
-					"4. Rouge\n"
-					"5. Class Info\n";
+				"Classes are your characters skill set.\nThey will determine your spell casting throughout the game.\n"
+					"1 - Mage\n"
+					"2 - Warlock\n"
+					"3 - Shaman\n"
+					"4 - Rouge\n"
+					"5 - Class Info\n";
 }
 
 //This is a light class list. Note: Only for trolls, elves, and dwarves. 
 void lightClassChoose() { 
 	std::cout << "Please choose a class:\n"
-					"1. Mage\n"
-					"2. Shaman\n"
-					"3. Mecha\n"
-					"4. Warrior\n"
-					"5. Class Info\n";
+				"Classes are your characters skill set.\nThey will determine your spell casting throughout the game.\n"
+					"1 - Mage\n"
+					"2 - Shaman\n"
+					"3 - Mecha\n"
+					"4 - Warrior\n"
+					"5 - Class Info\n";
 }
 
 
@@ -241,23 +258,29 @@ std::ostream &operator<<(std::ostream& stream, const damageSpell& damageSpellToP
 //Literally all of the players fight mechanics
 void playerFightMechanics(Creature creature) { 
 	std::cout << "You are fighting " << creature.name << ".\n";
+	std::cout << "Her HP is " << creature.health << "!\n";
 		
-				
-			
-		
-		
-			int firstTurnChecker = 1;
+			//Conditional Variablesssss
+			bool noMana;
+			bool healthSpellChecker;
+			int firstTurnChecker = 0;
 			bool runAttackMenuAgain = false; 
+			bool playerPassed;
 			while(true) { 
 				
+				
 				//Add 10 to mana every turn, if there is more than 100 mana, make it 100
-				user.mana = user.mana + 10;
-				if(user.mana > 100) { 
-					
-					int manaFiller = user.mana - 100;
-					user.mana = user.mana - manaFiller;
-					
+				if(noMana == true or playerPassed ) {
+					user.mana = user.mana + 10;
 				}
+				
+				
+				if(firstTurnChecker == 0) { 
+					
+					user.mana = user.mana - 10;
+					
+			}
+				
 				
 				
 					
@@ -267,37 +290,55 @@ void playerFightMechanics(Creature creature) {
 				
 				//Messages for beating creature
 				if(creature.health <= 0) { 
-					std::cout << "You have slain " << creature.name << "!\n";
-					std::cout << "XP Awarded: " << creature.experienceGained << "\n";
+					Sleep(1);
+					std::cout << "\nYou have slain " << creature.name << "!\n";
+					
+					Sleep(1);
+					std::cout << "\nXP Awarded: " << creature.experienceAwarded << "\n\n";
+					user.experience = user.experience + creature.experienceAwarded;
+					Sleep(1);
+					std::cout << "Rall Awarded: " << creature.rallAwarded << "\n\n";
+					user.rall = user.rall + user.rallAwarded;
 					break;
 				}
 				
 				
 			//Randomizes creatures attacks. 	
-			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true and fightErrorMessage == false) { 
+			if(firstTurnChecker > 1 and runAttackMenuAgain == false and playerAlive == true and fightErrorMessage == false and healthSpellChecker == false) { 
 				int randomNumber;
 				srand( time(0));
 				randomNumber = rand() % 3 + 1;
 				if(randomNumber == 1) { 
+					Sleep(1);
 					user.health = user.health - creature.damageSpells.at(0).damage;
 					std::string currentSpell = creature.damageSpells.at(0).spellName;
-		
-					std::cout << creature.name << " uses " << currentSpell << "\n";
-					Sleep(2);
+					Sleep(1);
+					std::cout  << creature.name << " uses " << currentSpell << "\n";
+					Sleep(1);
+					std::cout << "It does " << creature.damageSpells.at(0).damage << " points of damage!\n\n";
+					Sleep(1);
+					
 				}
 				else if(randomNumber == 2) { 
+					Sleep(1);
 					user.health = user.health - creature.damageSpells.at(1).damage;
 					std::string currentSpell = creature.damageSpells.at(1).spellName;
-					
-					std::cout << creature.name << " uses " << currentSpell << "\n";
-					Sleep(2);
+					Sleep(1);
+					std::cout  << creature.name << " uses " << currentSpell << "\n";
+					Sleep(1);
+					std::cout << "It does " << creature.damageSpells.at(1).damage << " points of damage!\n\n";
+					Sleep(1);
 				}
 				else if(randomNumber == 3) { 
+					Sleep(1);
 					user.health = user.health - creature.damageSpells.at(2).damage;
 					std::string currentSpell = creature.damageSpells.at(2).spellName;
+					Sleep(1);
+					std::cout  << creature.name << " uses " << currentSpell << "\n";
+					Sleep(1);
+					std::cout << "It does " << creature.damageSpells.at(2).damage << " points of damage!\n\n";
+					Sleep(1);
 					
-					std::cout << creature.name << " uses " << currentSpell << "\n";
-					Sleep(2);
 				}
 			}
 			
@@ -308,20 +349,26 @@ void playerFightMechanics(Creature creature) {
 					Sleep(2);
 					std::cout << "Restarting Battle...\n\n\n";
 					Sleep(2);
-					user.health = 100;
+					user.health = user.defaultHealth;
 					user.mana = 100;
 					creature.health = creature.defaultHealth;
 					playerAlive = false; 
 					continue;
 				}
 			//More conditional variables
-			firstTurnChecker++; 
 			fightErrorMessage = false;
 			runAttackMenuAgain = false;
 			playerAlive = true;
+			healthSpellChecker = false;
+			noMana = false;
+			playerPassed = false;
+			//Add 1 to first turn, only if firsturnchecker is 1 will it be first turn
+			firstTurnChecker++; 
+			
+			
 			
 			//Displays User Health and Mana 
-			std::cout << "Your HP: " << user.health << "/100\n";
+			std::cout << "Your HP: " << user.health << "/" << user.defaultHealth << "\n";
 			if(user.classtype == mage or user.classtype == shaman or user.classtype == mecha or user.classtype == warlock or user.subclass == templarWarrior) {
 				std::cout << "Your Mana: " << user.mana << "/100\n";
 			}
@@ -334,10 +381,10 @@ void playerFightMechanics(Creature creature) {
 			
 			
 				std::cout << "Choose which spell/attack you wish to use:\n"
-							"1. Damage\n"
-							"2. Healing\n"
-							"3. Effects\n"
-							"4. Items\n";
+							"1 - Damage\n"
+							"2 - Healing\n"
+							"3 - Items\n"
+							"4 - Misc\n";
 				
 				int chooseAttackType; 
 				createIcon();
@@ -345,23 +392,23 @@ void playerFightMechanics(Creature creature) {
 				
 				//Activates spell chooser based on previous answer
 				switch(chooseAttackType) { 
-					//CHOOSEATTACKTYPE CASE 1 BEGIN
+					//CHOOSE ATTACK TYPE CASE 1 BEGIN
 					case 1: 
-						//DSP is Damage Spell Something
+						//Displays all damage spells in players arsenal
 						std::cout << "Choose a damage spell:\n";
-						std::cout << "1. " << user.damageSpells.at(0).spellName;
+						std::cout << "1 - " << user.damageSpells.at(0).spellName << " " << user.damageSpells.at(0).spellDescription;
 						std::cout << "\n";
-						std::cout << "2. "  << user.damageSpells.at(1).spellName;
+						std::cout << "2 - " << user.damageSpells.at(1).spellName << " " << user.damageSpells.at(1).spellDescription;
 						std::cout << "\n";
-						std::cout << "3. " << user.damageSpells.at(2).spellName;
+						std::cout << "3 - " << user.damageSpells.at(2).spellName << " " << user.damageSpells.at(2).spellDescription;
 						std::cout << "\n";
-						std::cout << "4. " << user.damageSpells.at(3).spellName;
+						std::cout << "4 - " << user.damageSpells.at(3).spellName << " " << user.damageSpells.at(3).spellDescription;
 						std::cout << "\n";
-						std::cout << "5. " << user.damageSpells.at(4).spellName;
+						std::cout << "5 - " << user.damageSpells.at(4).spellName << " " << user.damageSpells.at(4).spellDescription;
 						std::cout << "\n";
-						std::cout << "6. Pass";
+						std::cout << "6 - Pass";
 						std::cout << "\n";
-						std::cout << "7. Go Back To Main Combat Menu\n";
+						std::cout << "7 - Go Back To Main Combat Menu\n";
 						createIcon();
 						int damageSpellChooser; 
 						std::cin >> damageSpellChooser; 
@@ -372,10 +419,15 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(0).manaCost) { 
 									std::cout << "\nYou Do Not Have Enough Mana!\n";
 									runAttackMenuAgain = true;
+									bool noMana = true;
 									break;
 								}
 								creature.health =  creature.health - user.damageSpells.at(0).damage;
+								Sleep(1);
+								std::cout << "You use " << user.damageSpells.at(0).spellName << "\n";
+								Sleep(1);
 								std::cout << "Your attack does " << user.damageSpells.at(0).damage << " points of damage\n";
+								Sleep(1);
 								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
 								user.mana = user.mana - user.damageSpells.at(0).manaCost; 
 								break;
@@ -383,48 +435,70 @@ void playerFightMechanics(Creature creature) {
 								if(user.mana < user.damageSpells.at(1).manaCost) { 
 									std::cout << "\nYou Do Not Have Enough Mana!\n";
 									runAttackMenuAgain = true;
+									bool noMana = true;
 									break;
 								}
 								creature.health =  creature.health - user.damageSpells.at(1).damage;
-								std::cout << "Your attack does " << user.damageSpells.at(1).damage << " points of damage\n";
-								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								Sleep(1);
+								std::cout << "You use " << user.damageSpells.at(1).spellName << "\n";
+								Sleep(1);
+								std::cout << "\nYour attack does " << user.damageSpells.at(1).damage << " points of damage\n";
+								Sleep(1);
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n\n";
+							
 								user.mana = user.mana - user.damageSpells.at(1).manaCost; 
 								break;
 							case 3:
 								if(user.mana < user.damageSpells.at(2).manaCost) { 
 										std::cout << "\nYou Do Not Have Enough Mana!\n";
 										runAttackMenuAgain = true;
+										bool noMana = true;
 										break;
 									}
 								creature.health =  creature.health - user.damageSpells.at(2).damage;
-								std::cout << "Your attack does " << user.damageSpells.at(2).damage << " points of damage\n";
-								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								Sleep(1);
+								std::cout << "You use " << user.damageSpells.at(2).spellName << "\n" ;
+								Sleep(1);
+								std::cout << "\nYour attack does " << user.damageSpells.at(2).damage << " points of damage\n";
+								Sleep(1);
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n\n";
 								user.mana = user.mana - user.damageSpells.at(2).manaCost; 
 								break;
 							case 4: 
 								if(user.mana < user.damageSpells.at(3).manaCost) { 
 										std::cout << "\nYou Do Not Have Enough Mana!\n";
 										runAttackMenuAgain = true;
+										noMana = true;
 										break;
 									}	
 								creature.health =  creature.health - user.damageSpells.at(3).damage;
-								std::cout << "Your attack does " << user.damageSpells.at(3).damage << " points of damage\n";
-								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								Sleep(1);
+								std::cout << "You use " << user.damageSpells.at(3).spellName << "\n";
+								Sleep(1);
+								std::cout << "\nYour attack does " << user.damageSpells.at(3).damage << " points of damage\n";
+								Sleep(1);
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n\n";
 								user.mana = user.mana - user.damageSpells.at(3).manaCost; 
 								break;
 							case 5: 
 									if(user.mana < user.damageSpells.at(4).manaCost) { 
 										std::cout << "\nYou Do Not Have Enough Mana!\n";
 										runAttackMenuAgain = true;
+										noMana = true;
 										break;
 									}
 								creature.health =  creature.health - user.damageSpells.at(4).damage;
-								std::cout << "Your attack does " << user.damageSpells.at(4).damage << " points of damage\n";
-								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n";
+								Sleep(1);
+								std::cout << "You use " << user.damageSpells.at(4).spellName << "\n" ;
+								Sleep(1);
+								std::cout << "\nYour attack does " << user.damageSpells.at(4).damage << " points of damage\n";
+								Sleep(1);
+								std::cout << creature.name << "'s HP is now at " << creature.health << "!\n\n";
 								user.mana = user.mana - user.damageSpells.at(4).manaCost; 
 								break;
 							case 6:
 								//Pass
+								playerPassed = true;
 								continue;
 							case 7:
 								//Returns to menu
@@ -448,10 +522,98 @@ void playerFightMechanics(Creature creature) {
 					
 					//CASE 1 END
 				
-				
+				//CASE 2 BEGIN
 				case 2:
-				
+					if(user.classtype == mage) { 
+						std::cout << "1 - " << user.healingSpells.at(0).spellName << "\n";
+						std::cout << "2 - " << user.healingSpells.at(1).spellName << "\n";
+						std::cout << "3 - " << user.healingSpells.at(2).spellName << "\n";
+						
+						int chooseHealingSpellLightMage;
+						createIcon();
+						std::cin >> chooseHealingSpellLightMage;
+					 
+						switch(chooseHealingSpellLightMage) { 
+							case 1:
+								if(user.mana < user.damageSpells.at(1).manaCost) { 
+									std::cout << "\nYou Do Not Have Enough Mana!\n";
+									runAttackMenuAgain = true;
+									bool noMana = true;
+									
+									break;
+								}
+								Sleep(1);
+								std::cout << "\nYou use " << user.healingSpells.at(0).spellName << "\n";
+								user.health = user.health + user.healingSpells.at(0).healthAdded;
+								user.mana = user.mana - user.healingSpells.at(2).manaCost;
+								if(user.health > user.defaultHealth) { 
+									int decreaseHealth;
+									decreaseHealth = user.health - user.defaultHealth;
+									user.health = user.health - decreaseHealth;
+								}
+								Sleep(1);
+								std::cout << "Your HP is now " << user.health << "!\n";
+								healthSpellChecker = true;
+								break; 
+								
+							case 2: 
+								if(user.mana < user.damageSpells.at(1).manaCost) { 
+									std::cout << "\nYou Do Not Have Enough Mana!\n";
+									runAttackMenuAgain = true;
+									bool noMana = true;
+									break;
+								}
+								Sleep(1);
+								std::cout << "\nYou use " << user.healingSpells.at(1).spellName << "\n";
+								user.health = user.health + user.healingSpells.at(1).healthAdded;
+								user.mana = user.mana - user.healingSpells.at(2).manaCost;
+								if(user.health > user.defaultHealth) { 
+									int decreaseHealth;
+									decreaseHealth = user.health - user.defaultHealth;
+									user.health = user.health - decreaseHealth;
+								}
+								Sleep(1);
+								std::cout << "Your HP is now " << user.health << "!\n";
+								healthSpellChecker = true;
+								break;
+							
+							case 3: 
+								if(user.mana < user.damageSpells.at(1).manaCost) { 
+										std::cout << "\nYou Do Not Have Enough Mana!\n";
+										runAttackMenuAgain = true;
+										break;
+									}
+								Sleep(1);
+								std::cout << "\nYou use " << user.healingSpells.at(2).spellName << "\n";
+								user.health = user.health + user.healingSpells.at(2).healthAdded;
+								user.mana = user.mana - user.healingSpells.at(2).manaCost;
+								if(user.health > user.defaultHealth) { 
+									int decreaseHealth;
+									decreaseHealth = user.health - user.defaultHealth;
+									user.health = user.health - decreaseHealth;
+								}
+								Sleep(1);
+								std::cout << "Your HP is now " << user.health << "!\n";
+								healthSpellChecker = true;
+								break;
+						 
+						 
+						}
+						
+					}
+					
+					else if(user.classtype == warlock) { 
+						std::cout << "1 - " <<  user.healingSpells.at(0).spellName << "\n";
+						std::cout << "2 - " << user.healingSpells.at(1).spellName << "\n"; 
+						std::cout << "3 - " << user.healingSpells.at(2).spellName << "\n";
+						
+						
+						
+						
+					}
 					break;
+					
+					//CASE 2 END
 			
 				case 3:
 			
@@ -474,19 +636,23 @@ void playerFightMechanics(Creature creature) {
 				
 				
 			}
-}	
-			
+}		
+	
 
 //GAME START 
 int main() {
 
-	
+	system("mode 650");
 	
 
 
 	while (true) { 
 		//Acquires players first name 
-		std::string introOne = "Welcome to The World of Magick\nWhat is your name?\n";
+		std::string introOne = "Welcome to The World of Magick\n" 
+								"Magick is a world filled with adventure, danger, both light and dark.\n"
+								"It has chosen you, child, to enter its depths.\n"
+								"What is your name?\n";
+								
 	
 		std::cout << introOne;
 	
@@ -514,6 +680,20 @@ int main() {
 			cinClear();
 			continue;
 		} 
+		//Confirms user didnt fuck up their name
+		if (nameConfirm == "Y" or nameConfirm == "y") {
+			break;
+		}
+		
+		else if (nameConfirm == "N" or nameConfirm == "n") { 
+			std::cout << "\n";
+			continue;
+		}	
+		else { 
+			std::cout << "\nAnswer not valid, try again\n";
+			cinClear();
+			continue;
+		} 
 		
 		
 		
@@ -527,7 +707,7 @@ int main() {
 	//This is for choosing gender
 	while (true) { 
 		std::cout << "\nAre you a boy or a girl?\n" 
-					"1. Boy | 2. Girl\n" 
+					"1 - Boy | 2 - Girl\n" 
 					"Choices are selected by typing in a single number\n";
 		
 		//Asks for players gender 
@@ -571,14 +751,15 @@ int main() {
 		//Asks players for race. 
 		int raceChoose; 
 		std::cout << "\nPlease choose a race:\n"
-					"1. Elf\n"
-					"2. Human\n"
-					"3. Vampire\n"
-					"4. Druid\n"
-					"5. Troll\n"
-					"6. Orc\n"
-					"7. Dwarf\n"
-					"8. Race Info\n";
+					"Races are the species of your character\nThey will determine your starting point and many other game factors.\n"
+					"1 - Elf\n"
+					"2 - Human\n"
+					"3 - Vampire\n"
+					"4 - Druid\n"
+					"5 - Troll\n"
+					"6 - Orc\n"
+					"7 - Dwarf\n"
+					"8 - Race Info\n";
 		
 		createIcon();
 		std::cin >> raceChoose;			
@@ -759,6 +940,7 @@ int main() {
 			switch(classChoose) { 
 				case 1: 
 					user.classtype = mage;
+					break;
 					
 				case 2:
 					user.classtype = warlock;
@@ -806,7 +988,7 @@ int main() {
 					break;
 			
 				case 4: 
-					user.classtype = rouge;
+					user.classtype = rogue;
 					break; 
 				
 				case 5:
@@ -817,6 +999,7 @@ int main() {
 					errorMessage();
 					
 			}
+			break;
 		}
 		
 		//Sets class if the light class list was displayed
@@ -846,40 +1029,43 @@ int main() {
 				default:
 					errorMessage();	
 			}
+			break;
+			
 		}
 			
 			
 		
-		std::string classHelpMage = "Mage - Mages draw their magick from one of the three celestial worlds; these worlds include:\n"
-									"The Aether - Very little is known about this realm, it is the place where light mages draw their energy.\n"
-									"The Void - This place contains the demons of Algoria, and can be reached in dreams. This is the world in which dark mages draw their energy.\n"
-									"The Arcane World - Called 'The Invisible World' by many. Exists as a realm that lives under the surface of ours, filled with its own beings and powers.\n"
-									"\nThis is where arcane mages draw their power.\n"
-									"Mages use raw energy from these worlds, and use discipline and intelligence to master their art.\n\n"; 
+		std::string classHelpMage = "Mage - Mages draw their magick from one of the three celestial worlds; these worlds include:\n\n"
+									"The Aether - Very little is known about this realm, it is the place where light mages draw their energy.\n\n"
+									"The Void - This place contains the demons of Algoria, and can be reached in dreams.\nThis is the world in which dark mages draw their energy.\n\n"
+									"The Arcane World - Called 'The Invisible World' by many.\nExists as a realm that lives under the surface of ours, filled with its own beings and powers.\n"
+									"This is where arcane mages draw their power.\n\n"
+									"Mages use raw energy from these worlds, as well as discipline and intelligence to master their art.\n\n"; 
 		
 		std::string classHelpShaman = "Shaman - Shaman draw their magick from the elements of Algoria.\n"
 										"The elements used by Shaman are Earth, Water, Fire, and Air.\n"
 										"Shaman respect nature, and believe it should be protected at all costs.\n"
-										"Shamans magick can be beautiful, but if placed in the wrong hands, can easily spread out of control, and become dangerous.\n"; 
+										"Shamans magick can be beautiful, but if placed in the wrong hands, can easily spread out of control, and become dangerous.\n\n"; 
 		
 		std::string classHelpWarlock = "Warlock - Warlock magick is the darkest form of arts, drawing their energy from the beings of the void, demons.\n"
 										"A warlock's magick is used to harm and delude, and there are several specializations of warlock magick. \n"
 										"Warlocks magick cannot be used to heal by normal means, and must use life force from others to heal or help.\n"
-										"To cast spells, warlocks use magick drawn from demons of the void to create energy.\n";
+										"To cast spells, warlocks use magick drawn from demons of the void to create energy.\n\n";
 		
-		std::string classHelpMecha = "Mecha -";
+		std::string classHelpMecha = "Mecha - The Mecha are the mot mysterious magick users in all of Algoria\n"
+									"The Mecha draw energy from a place that they themselves no nothing of, deemed the Metrus by its users.\n"
+									"These magick users can forge living metal, minions to serve and fight for them, machine to protect them, armor to last the ages.\n"
+									"This magick was specific to the dwarves for many centuries.\n"
+									"The elven race attacked their capital, Dulor, stealing many secrets, including that of the Mecha.\n\n";
+									
 		
-		std::string classHelpRogue = "Rogue - Rogues are a kindred group of thieves and assassins, bound by blood to fulfill bounties. They utilize trinkets and gadgets to conceal themselves or their weapon of choice.\n"
-										"Rogues are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n"
-										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n"
-										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n"
-										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n"; 
+		std::string classHelpRogue = "Rogue - Rogues are a kindred group of thieves and assassins.\nBound by blood to fulfill bounties.\n"
+									"They utilize trinkets and gadgets to conceal themselves or their weapon of choice.\n\n";
+										
 		
-		std::string classHelpWarrior = "Warrior - Warriors are the stock of any militarized nation within Algoria. Untimid, they stride into battle, brash to bash their foes.\n"
-										"Warriors commonly classify themselves within a certain culture or race, thus determining their balances in warfare.\n"
-										"Berserker - Berserker warriors bear heavy-metal armors, they use large weapons, long swords and the like. They can tap into a fiery rage, allowing them to become deadly killing machines.\n"
-										"Light - Light warriors skirmish behind berserkers, and wield finely tempered blades and small maces. They focus in dealing damage, not taking it.\n"
-										"Templar - Templars are zealous scholars, they use techniques passed down for ages to neutralize and drain magic. After doing this, they can swiftly kill their magic using enemies.\n";
+		std::string classHelpWarrior = "Warrior - Warriors are the stock of any militarized nation within Algoria.\nUntimid, they stride into battle, brash to bash their foes.\n"
+										"Warriors commonly classify themselves within a certain culture or race, thus determining their balances in warfare.\n\n";
+										
 			
 			//Decides whether to break or continue loop based on input for players using the full list
 			if (displayedList == fullList) { 
@@ -946,85 +1132,293 @@ int main() {
 		}
 		
 		
+		std::string warriorSubClassHelp = "\nWARRIOR:\n"
+										"Warriors are broken down into three sub-sets, where they use offensive and defensive maneuvers to destroy their enemies.\n\n"
+										"Berserker - Berserker warriors bear heavy-metal armors, they use large weapons, long swords and the like.\nThey can tap into a fiery rage, allowing them to become deadly killing machines.\n\n"
+										"Light - Light warriors skirmish behind berserkers, and wield finely tempered blades and small maces.\nThey focus in dealing damage, not taking it.\n\n"
+										"Templar - Templars are zealous scholars, they use techniques passed down for ages to neutralize and drain magic.\nAfter doing this, they can swiftly kill their magic-using enemies.\n\n";
+										
+										
+		std::string rogueSubClassHelp = "\nROGUE:\n"
+										"Rogues are broken down into three sub-sets, where they utilize different ways to quietly slaughter.\n\n"
+										"Poison - These rogues prioritize in the art of alchemy, using poisons to weaken foes or leave them to perish.\n\n"
+										"Stealth - This sub-set brandishes daggers and other concealable blades, prefering to strike clean and unseen.\n\n"
+										"Lethal - Lethal rogues are stockier and beefier, crippling their foes by shattering their pressure points.\n\n"; 
+										
 		
+		std::string mageSubClassHelp = "";
+		
+		std::string shamanSubClassHelp = "";
+		
+		std::string warlockSubClassHelp = "";
+		
+		std::string mechaSubClassHelp = "";
 		
 		switch(user.classtype) { 
-			
-		case mage: 
-			while(true) { 
-				std::cout << "Please choose a subclass for the class " << user.classtype << ":";
-				std::cout <<  "1. Light Mage\n" << 
-							"2. Dark Mage\n" << 
-							"3. Arcane Mage\n" << 
-							"4. Subclass Info\n"; 
-							std::string chooseSubClassMage;
-							createIcon();
-							std::cin >> chooseSubClassMage;
-							switch(chooseSubClassMage) { 
-								case 1: 
-									user.subclass = aetherMage;
-									break;
-								case 2: 
-									user.subclass = voidMage;
-									break;
-								case 3: 
-									user.subclass = arcaneMage;
-									break;
-								case 4:
-									std::cout << ""
-								default: 
-									user.subclass = mageHelp;
-									errorMessage();
-									cinClear();
-									break;
-							if(user.subclass == mageHelp) {
-								continue;
-							}
-							break;
+	 	while(true) { 
+			case mage: 
+				while(true) { 
+					std::cout << "\nPlease choose a subclass for the class: Mage.\n";
+					std::cout << "Subclasses are specifications for each class.\nThey will determine your attacks and spells.\n";
+					std::cout <<  "1 - Aether Mage\n" << 
+								"2 - Void Mage\n" << 
+								"3 - Arcane Mage\n" << 
+								"4 - Subclass Info\n"; 
+								int chooseSubClassMage;
+								createIcon();
+								std::cin >> chooseSubClassMage;
+								switch(chooseSubClassMage) { 
+									case 1: 
+										user.subclass = aetherMage;
+										break;
+									case 2: 
+										user.subclass = voidMage;
+										break;
+									case 3: 
+										user.subclass = arcaneMage;
+										break;
+									case 4:
+										std::cout << mageSubClassHelp;
+										user.subclass = mageHelp;
+								
+									default: 
+										user.subclass = mageHelp;
+										errorMessage();
+										cinClear();
+										break;
+								if(user.subclass == mageHelp) {
+									continue;
+								}
+								break;
 							
-			}
-			break;
+							
+								}
+					}	
+				break;
 			
 		
-		case shaman: 
-			while(true) { 
+			case warlock: 
+				while(true) { 
+					std::cout << "\nPlease choose a subclass for the class: Warlock.\n";
+					std::cout << "Subclasses are specifications for each class.\nThey will determine your attacks and spells.\n";
+					std::cout << "1 - Demon Warlock\n" << 
+								"2 - Blood Warlock\n" << 
+								"3 - Poison Warlock\n" << 
+								"4 - Subclass Info\n";
+								int chooseSubClassWarlock;
+								createIcon();
+								std::cin >> chooseSubClassWarlock;
+								switch(chooseSubClassWarlock) { 
+									case 1: 
+										user.subclass = demonWarlock;
+										break;
+									case 2: 
+										user.subclass = bloodWarlock;
+										break;
+									case 3:
+										user.subclass = diseaseWarlock;
+										break;
+									case 4:
+										std::cout << warlockSubClassHelp;
+										user.subclass = warlockHelp;
+								
+									default: 
+										user.subclass = warlockHelp;
+										errorMessage();
+										cinClear();
+										break;
+								if(user.subclass == warlockHelp) {
+									continue;
+								}
+								break;
+							
+							
+								}
+					}	
+				break;
 			
-			}
-			break;
 			
-		case warlock: 
-			while(true) { 
 			
-			}
-			break;
 			
-		case mecha: 
-			while(true) {
+			case shaman: 
+				while(true) { 
+					std::cout << "\nPlease choose a subclass for the class: Shaman.\n";
+					std::cout << "Subclasses are specifications for each class.\nThey will determine your attacks and spells.\n";
+					std::cout <<  "1 - Earth Shaman\n" << 
+								"2 - Fire Shaman\n" << 
+								"3 - Water Shaman\n" << 
+								"4 - Air Shaman\n" << 
+								"5 - Subclass Info\n"; 
+								int chooseSubClassShaman;
+								createIcon();
+								std::cin >> chooseSubClassShaman;
+								switch(chooseSubClassShaman) { 
+									case 1: 
+										user.subclass = earthShaman;
+										break;
+									case 2: 
+										user.subclass = waterShaman;
+										break;
+									case 3: 
+										user.subclass = fireShaman;
+										break;
+									case 4:
+										user.subclass = airShaman;
+										break;
+									case 5:
+										std::cout << shamanSubClassHelp;
+										user.subclass = shamanHelp;
+								
+									default: 
+										user.subclass = shamanHelp;
+										errorMessage();
+										cinClear();
+										break;
+								if(user.subclass == shamanHelp) {
+									continue;
+								}
+								break;
+							
+							
+								}
+					}	
+				break;
 			
-			}
-			break;
+			case mecha: 
+				while(true) { 
+					std::cout << "\nPlease choose a subclass for the class: Mecha.\n";
+					std::cout << "Subclasses are specifications for each class.\nThey will determine your attacks and spells.\n";
+					std::cout <<  "1 - Golem Mecha\n" << 
+								"2 - Weapons Mecha\n" << 
+								"3 - Subclass Info\n"; 
+								int chooseSubClassMecha;
+								createIcon();
+								std::cin >> chooseSubClassMecha;
+								switch(chooseSubClassMecha) { 
+									case 1: 
+										user.subclass = golemMecha;
+										break;
+									case 2: 
+										user.subclass = weaponsMecha;
+										break;
+									case 3:
+										std::cout << mechaSubClassHelp;
+										user.subclass = mechaHelp;
+								
+									default: 
+										user.subclass = mechaHelp;
+										errorMessage();
+										cinClear();
+										break;
+								if(user.subclass == mechaHelp) {
+									continue;
+								}
+								break;
+							
+							
+								}
+				}	
+				break;
 		
-		case rogue:
-			while(true) {
-			
-			}
-			break;
+			case rogue:
+				while(true) { 
+					std::cout << "\nPlease choose a subclass for the class: Rogue.\n";
+					std::cout << "Subclasses are specifications for each class.\nThey will determine your attacks and spells.\n";
+					std::cout <<  "1 - Stealth Rogue\n" << 
+								"2 - Lethal Rogue\n" << 
+								"3 - Poison Rogue\n" << 
+								"4 - Subclass Info\n"; 
+								int chooseSubClassRogue;
+								createIcon();
+								std::cin >> chooseSubClassRogue;
+								switch(chooseSubClassRogue) { 
+									case 1: 
+										user.subclass = stealthRouge;
+										break;
+									case 2: 
+										user.subclass = lethalRouge;
+										break;
+									case 3:
+										user.subclass = poisonRouge;
+										break;
+									case 4:
+										std::cout << rogueSubClassHelp;
+										user.subclass = rogueHelp;
+								
+									default: 
+										user.subclass = rogueHelp;
+										errorMessage();
+										cinClear();
+										break;
+								if(user.subclass == rogueHelp) {
+									continue;
+								}
+								break;
+							
+							
+								}
+				}	
+				break;
 		
-		case warrior: 
-			while(true) { 
-	
-			}
-			break;
-		
-		
-			
+			case warrior: 
+				while(true) { 
+					std::cout << "\nPlease choose a subclass for the class: Warrior.\n";
+					std::cout << "Subclasses are specifications for each class.\nThey will determine your attacks and spells.\n";
+					std::cout <<  "1 - Berserker Warrior\n" << 
+								"2 - Light Warrior\n" << 
+								"3 - Templar Warrior\n" << 
+								"4 - Subclass Info\n"; 
+								int chooseSubClassShaman;
+								createIcon();
+								std::cin >> chooseSubClassShaman;
+								switch(chooseSubClassShaman) { 
+									case 1: 
+										user.subclass = stealthRouge;
+										break;
+									case 2: 
+										user.subclass = lethalRouge;
+										break;
+									case 3:
+										user.subclass = poisonRouge;
+										break;
+									case 4:
+										std::cout << warriorSubClassHelp;
+										
+								
+									default: 
+										user.subclass = rogueHelp;
+										errorMessage();
+										cinClear();
+										break;
+								if(user.subclass == rogueHelp) {
+									continue;
+								}
+								break;
+							
+							
+								}
+				}	
+				break;
+				
+			// ***
+			case lightClassHelp:
+				
+				break;
+			// ***
+			case darkClassHelp:
+				break;
+			// ***
+			case fullClassHelp:
+				break;
 		}
+		break;
 		
 		
 		
 		
 		
-		
+		}
 }
+
 
 
